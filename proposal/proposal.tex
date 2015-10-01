@@ -1,35 +1,28 @@
 \documentclass[11pt]{article}
 \bibliographystyle{siam}
 
-\title{The title of your project proposal}
+\title{Classification of fMRI Data}
 \author{
-  LastName1, FirstName1\\
-  \texttt{github1}
+  Escobar, Giancarlo\\
+  \texttt{giancarloescobar}
   \and
-  LastName2, FirstName2\\
-  \texttt{github2}
+  Pimentel, Noel\\
+  \texttt{noelpimentel}
   \and
-  LastName3, FirstName3\\
-  \texttt{github3}
+  Yousuf, Imran\\
+  \texttt{imranyousuf}
   \and
-  LastName4, FirstName4\\
-  \texttt{github4}
+  Zheng, Chang\\
+  \texttt{changzheng1993}
 }
 
 \begin{document}
 \maketitle
 
-Identify a published fMRI paper and the accompanying data
-\cite{lindquist2008statistical}.  You should explain the basic idea of the
-paper in a paragraph.  You should also perform basic sanity check on the data
-(e.g., can you downloaded, can you load the files, confirm that you have the
-correct number of subjects).
+The functional architecture of the object vision pathway in the human brain was investigated using fMRI imaging to measure patterns of response in ventral temporal cortex while subjects viewed categories of objects and nonsense pictures in Haxby et al. [Science 293 (2001) 2425]  . Haxby argued that category related responses in the VT lobe during visual object identification were overlapping and distributed in topography. At the time of Hanson et al. [Elsevier 23 (2004) 156] \cite {hanson2004combinatorial} there were prevailing views that objects codes were focal and localized to specific areas like the fusiform and the parahippocampal gyri.  In this paper, Hanson et al. provide a crucial test of Haxby's hypothesis, on our data \cite {haxby2001vor}, using a neural network classifier that detects more general topographic representations and achieves an 83 percent correct generalization performance on patterns of voxel responses in out-of-sample tests (i.e. testing data).  
 
-Briefly explain what approach you intend to take for exploring
-the data and paper.  If you intend to ``reproduce'' some aspect of the paper,
-explain in exactly what sense you mean to do this.  If you are thinking about
-validating the data describe the assumpution used in the analysis and indicate
-how you might check them.
+
+Our approach is intended to surpass this performance.  We will use similar methods used by Hanson et al. (i.e. nueral networks and voxel-wise sensitivity analysis) while implementing different techniques along the way (i.e. bootstrap, cross validation, stacking). We also intend on implementing some different classification methods like LDA, QDA, trees (bagging, random forests, boosting), SVMs, etc. in order to compare method performances and gain further insight on the fMRI data.
 
 \bibliography{proposal}
 
