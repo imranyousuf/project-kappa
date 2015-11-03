@@ -6,8 +6,7 @@ from .. import data
 
 
 def test_check_hashes():
-    tf = tempfile.NamedTemporaryFile(delete=False)
-    fname = tf.name
+    
     with tempfile.NamedTemporaryFile() as temp:
         temp.write(b'Some data')
         temp.flush()
