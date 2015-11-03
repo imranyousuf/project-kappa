@@ -1,5 +1,5 @@
-% Project Aleph Progress Report
-% Ross Barnowski, Matthew Brett, Jarrod Millman
+% Project Kappa Progress Report
+% Zheng Chang, Giancarlo Escobar, Noel Pimentel, Imran Yousuf, 
 % November 12, 2015
 
 # Background
