@@ -1,3 +1,7 @@
+import nibabel as nib
+import numpy as np
+import os
+
 def merge_bold(subject):
 	sub_path = os.path.realpath(subject)
 	runs_path = ['BOLD/task001_run'+ i + '/bold.nii.gz' for i in ['001','002','003','004','005','006','007','008','009','010','011’,’012’]]
