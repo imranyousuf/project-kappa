@@ -1,3 +1,5 @@
+import numpy as np
+
 def vol_std(data):
 
     T = data.shape[-1]
