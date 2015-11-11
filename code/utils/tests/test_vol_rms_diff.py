@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from diagnostics import vol_rms_diff
+from .. import vol_rms_diff
 
 from numpy.testing import assert_almost_equal, assert_array_equal
 

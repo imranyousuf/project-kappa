@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from diagnostics import extend_diff_outliers
+from .. import extend_diff_outliers
 
 from nose.tools import assert_equal
 

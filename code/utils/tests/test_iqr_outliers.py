@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from diagnostics import iqr_outliers
+from .. import iqr_outliers
 
 from nose.tools import assert_equal
 
