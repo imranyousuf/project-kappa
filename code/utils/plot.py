@@ -5,17 +5,16 @@ import diagnostics as dig
 import numpy.linalg as npl
 
 def plot_vol_std_values(vol_std_values):
-	
-plt.plot(np.arange(len(vol_std_values)), vol_std_values,'g-')
-plt.plot(np.arange(len(vol_std_values))[outlier],vol_std_values[outlier],'o', color = 'r')
-lower = dig.iqr_outliers(vol_std_values)[1][0]
-upper = dig.iqr_outliers(vol_std_values)[1][1]
-plt.axhline(y = lower,color = 'b')
-plt.axhline(y = upper, color = 'r')
-plt.xlabel('voxel')
-plt.ylabel('std')
-plt.title('std of each voxel')
-plt.legend(['std','outlier','lower threshold','higher threshold'],loc = 4)
+	plt.plot(np.arange(len(vol_std_values)), vol_std_values,'g-')
+	plt.plot(np.arange(len(vol_std_values))[outlier],vol_std_values[outlier],'o', color = 'r')
+	lower = dig.iqr_outliers(vol_std_values)[1][0]
+	upper = dig.iqr_outliers(vol_std_values)[1][1]
+	plt.axhline(y = lower,color = 'b')
+	plt.axhline(y = upper, color = 'r')
+	plt.xlabel('voxel')
+	plt.ylabel('std')
+	plt.title('std of each voxel')
+	plt.legend(['std','outlier','lower threshold','higher threshold'],loc = 4)
 
 def plot_rmsd(rms_values):
 
