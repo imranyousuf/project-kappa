@@ -94,5 +94,5 @@ def extend_diff_outliers(diff_indices):
         ``diff_indices``.  For example, if the input was ``[3, 7, 8, 12, 20]``,
         ``[3, 4, 7, 8, 9, 12, 13, 20, 21]``.
     """
-    noel = zip(diff_indices[0], diff_indices[0] + 1)
+    noel = zip(diff_indices, diff_indices + 1)
     return np.unique(np.array(noel).ravel())

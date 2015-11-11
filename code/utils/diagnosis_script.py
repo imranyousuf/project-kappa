@@ -125,7 +125,7 @@ On the same plot, plot the following:
 IMPORTANT - save this plot as ``extended_vol_rms_outliers.png``
 """
 
-rms_index = dg.extend_diff_outliers(outliers2)
+rms_index = dg.extend_diff_outliers(outliers2[0])
 
 plt.plot(np.append(diff, 0))
 plt.plot(np.arange(len(diff))[rms_index],np.array(diff)[rms_index],'o', color='r')
