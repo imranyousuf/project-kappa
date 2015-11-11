@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from .. import vol_std
+from .. import diagnostics as dg
 
 from numpy.testing import assert_almost_equal, assert_array_equal
 
@@ -22,5 +22,5 @@ def test_vol_std():
     expected_stds = np.std(arr_2d, axis=0)
     # Reshape to 4D
     arr_4d = np.reshape(arr_2d, shape_3d + (T,))
-    actual_stds = vol_std(arr_4d)
+    actual_stds = dg.vol_std(arr_4d)
     assert_almost_equal(expected_stds, actual_stds)

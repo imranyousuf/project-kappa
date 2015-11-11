@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from .. import iqr_outliers
+from .. import diagnostics as dg
 
 from nose.tools import assert_equal
 
@@ -20,22 +20,22 @@ def test_iqr_outliers():
     # iqr = 50
     exp_lo = 25 - 75
     exp_hi = 75 + 75
-    indices, thresholds = iqr_outliers(arr)
+    indices, thresholds = dg.iqr_outliers(arr)
     assert_array_equal(indices, [])
     assert_equal(thresholds, (exp_lo, exp_hi))
     # Reverse, same values
-    indices, thresholds = iqr_outliers(arr[::-1])
+    indices, thresholds = dg.iqr_outliers(arr[::-1])
     assert_array_equal(indices, [])
     assert_equal(thresholds, (exp_lo, exp_hi))
     # Add outliers
     arr[0] = -51
     arr[1] = 151
     arr[100] = 1  # replace lost value to keep centiles same
-    indices, thresholds = iqr_outliers(arr)
+    indices, thresholds = dg.iqr_outliers(arr)
     assert_array_equal(indices, [0, 1])
     assert_equal(thresholds, (exp_lo, exp_hi))
     # Reversed, then the indices are reversed
-    indices, thresholds = iqr_outliers(arr[::-1])
+    indices, thresholds = dg.iqr_outliers(arr[::-1])
     assert_array_equal(indices, [99, 100])
     assert_equal(thresholds, (exp_lo, exp_hi))
 
@@ -47,17 +47,17 @@ def test_iqr_scaling():
     # iqr = 50
     exp_lo = 25 - 100
     exp_hi = 75 + 100
-    indices, thresholds = iqr_outliers(arr, 2)
+    indices, thresholds = dg.iqr_outliers(arr, 2)
     assert_array_equal(indices, [])
     assert_equal(thresholds, (exp_lo, exp_hi))
     # Add outliers - but these aren't big enough now
     arr[0] = -51
     arr[1] = 151
-    indices, thresholds = iqr_outliers(arr, 2)
+    indices, thresholds = dg.iqr_outliers(arr, 2)
     assert_array_equal(indices, [])
     # Add outliers - that are big enough
     arr[0] = -76
     arr[1] = 176
     arr[100] = 1  # replace lost value to keep centiles same
-    indices, thresholds = iqr_outliers(arr, 2)
+    indices, thresholds = dg.iqr_outliers(arr, 2)
     assert_array_equal(indices, [0, 1])

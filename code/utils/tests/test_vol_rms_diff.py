@@ -7,7 +7,7 @@ Run with:
 
 import numpy as np
 
-from .. import vol_rms_diff
+from .. import diagnostics as dg
 
 from numpy.testing import assert_almost_equal, assert_array_equal
 
@@ -23,5 +23,5 @@ def test_vol_rms_diff():
     exp_rms = np.sqrt(np.mean(differences ** 2, axis=0))
     # Reshape to 4D and run function
     arr_4d = np.reshape(arr_2d, shape_3d + (T,))
-    actual_rms = vol_rms_diff(arr_4d)
+    actual_rms = dg.vol_rms_diff(arr_4d)
     assert_almost_equal(actual_rms, exp_rms)
