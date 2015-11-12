@@ -40,7 +40,7 @@ Haxby Similarity Method
 ![picture](time_course_cond001_task001%20copy.png )
 
 ## Data Folder Structure
-![picture](structue.png )
+![picture](structure.png )
 
 # Next steps
 
