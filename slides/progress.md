@@ -36,11 +36,11 @@
 - Simple plots, summary statistics
 - Convolution
 
-## Task Time Course
-![picture](time_course_cond001_task001%20copy.png )
-
 ## Data Folder Structure
 ![picture](structure.png )
+
+## Task Time Course
+![picture](time_course_cond001_task001%20copy.png )
 
 # Next steps
 
