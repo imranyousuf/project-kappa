@@ -1,0 +1,21 @@
+#Do need this
+	run_path = ['BOLD/task001_run'+ i + '/bold.nii.gz' for i in ['001','002','003','004','005','006','007','008','009','010','011','012']]
+
+#Don’t really need this, can specify sub001, sub002, etc. in function
+	subjects = ['sub' + i for i in ['001','002','003','004','005','006','007','008','009','010','011','012']]
+
+#Equivalent
+	sub_path = os.path.realpath('sub001')
+	sub_path = os.path.realpath(subjects[0])
+
+#Equivalent
+	final_path = os.path.join(sub_path, 'BOLD/task001_run001/bold.nii.gz')
+	final_path = os.path.join(sub_path, run_path[0])
+
+img = nib.load(final_path)
+data = img.get_data()
+
+#Merges all BOLD fMRI for sub001, can specify sub002, sub003, etc. with function
+	noel = [nib.load(os.path.join(sub_path, runs[i])).get_data() for i in range(len(runs))]
+	pimentel = np.concatenate(noel, axis = 3)
+
