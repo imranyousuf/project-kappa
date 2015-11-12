@@ -29,8 +29,7 @@
 - simple plots, summary statistics
 
 ## Task Time Course 
-![picture](https://github.com/changzheng1993/project-kappa/blob/master/slides/time_course_cond001_task001%20copy.png )
-
+![picture](https://github.com/changzheng1993/project-kappa/blob/master/slides/time_course.png )
 # Next steps
 
 ## Preprocessing / Validation
