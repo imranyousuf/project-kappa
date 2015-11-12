@@ -1,5 +1,6 @@
 import numpy as np
 import nibabel as nib
+import os
 
 def get_affine(subject):
 	sub_path = os.path.realpath(subject)
