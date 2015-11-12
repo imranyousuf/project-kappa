@@ -14,9 +14,11 @@
 - 12 subjects
 - 2 conditions per subject
 
+
 ## The Method
 
 - linear regression
+- machine learning
 
 # Initial work
 
