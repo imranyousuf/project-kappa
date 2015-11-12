@@ -6,7 +6,7 @@
 
 ## The Paper
 - "Distributed and overlapping representations of faces and objects in ventral temporal cortex" Haxby et al.
-- "Combinatorial codes in ventral temporal lobe for object recognition: Haxby (2001). revisited: is there a face? area?" Hanson et al.
+- "Combinatorial codes in ventral temporal lobe for object recognition: Haxby (2001). revisited: is there a face area?" Hanson et al.
 - "Partially distributed representations of objects and faces in ventral temporal cortex" O'Toole et al.
 - from OpenFMRI.org
 - ds105 
