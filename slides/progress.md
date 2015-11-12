@@ -20,10 +20,10 @@
 
 ## The Method
 
--Haxby Similarity Method
-	-Data for each subject were split into two sets, even and odd runs
-	-Within category correlation was compared to between category correlation
-	-Excluded maximally responsive voxels and again compared within category correlation to between category correlation
+- Haxby Similarity Method
+    - Data for each subject were split into two sets, even and odd runs
+    - Within category correlation was compared to between category correlation
+    - Excluded maximally responsive voxels and again compared within category correlation to between category correlation
 	
 # Initial work
 
