@@ -40,7 +40,7 @@
 ![picture](structure.png )
 
 ## Task Time Course
-![picture](time_course_cond001_task001%20copy.png )
+![picture](time_course.png )
 
 # Next steps
 
