@@ -86,7 +86,24 @@ for i in run_img_result.keys():
 	plt.savefig( i + '_vol_rms_outliers.png')
 	plt.close()
 
+# plot the extended_vol_rms_outliers
 
+for i in run_img_result.keys():
+	img = nib.load(run_img_result[i])
+	data = img.get_data()
+	rms_dvals = dg.vol_rms_diff(data)
+	rms_outliers, rms_thresholds = dg.iqr_outliers(rms_dvals)
+	T = data.shape[-1]
+	ext_outliers = dg.extend_diff_outliers(rms_outliers)
+	x = np.arange(T)
+	rms_dvals_ext = np.concatenate((rms_dvals, (0,)), axis=0)
+	plt.plot(rms_dvals_ext, label='vol RMS differences')
+	plt.plot(x[ext_outliers], rms_dvals_ext[ext_outliers], 'o', label='outliers')
+	plt.plot([0, N], [rms_thresholds[0], rms_thresholds[0]], ':', label='IQR lo')
+	plt.plot([0, N], [rms_thresholds[1], rms_thresholds[1]], ':', label='IQR hi')
+	plt.legend(fontsize = 8)
+	plt.savefig(i + '_extended_vol_rms_outliers.png')
+	plt.close()
 
 
 
