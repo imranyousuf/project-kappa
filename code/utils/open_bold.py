@@ -1,3 +1,5 @@
+import os
+
 def open_bold (subject):
 	""" Find all task_run files from a subject BOLD """ 
 
