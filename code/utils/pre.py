@@ -2,7 +2,7 @@ import numpy as np
 import nibabel as nib
 import matplotlib.pyplot as plt
 import os
-import diagnostics as dig
+import diagnostics as dg
 
 
 
@@ -14,9 +14,9 @@ def open_bold (subject):
 
 	sub_path = os.path.realpath(subject)
 	sub_path_BOLD = sub_path + '/BOLD'
-	task_run = [ i for i in os.listdir(sub_path_BOLD)]
+	task_run = [ i for i in os.listdir(sub_path_BOLD) if not (i.startswith('.'))]
 
-	return task_run[1:]
+	return task_run
 
 def path_bold(subject):
 	""" Get the path of BOLD """
@@ -29,13 +29,14 @@ def open_anatony(subject):
 	""" Open highres001_brain """
 
 	sub_path = os.path.realpath(subject)
-	return sub_path + 'anatomy/highres001_brain.nii.gz'
+	return sub_path + '/anatomy/highres001_brain.nii.gz'
 
 ## work on subject 1
 
 #Extract Brain data
-brain_img = open_anatony('sub001')
-data = img.get_data()
+brain_directory = open_anatony('sub001')
+brain_img = nib.load(brain_directory)
+data = brain_img.get_data()
 
 #Extract each task
 sub001_task_run = open_bold('sub001')
@@ -51,8 +52,8 @@ run_img_result = {x: sub001_path_BOLD + "/" + x + '/bold.nii.gz' for x in sub001
 for i in run_img_result.keys():
 	img = nib.load(run_img_result[i])
 	data = img.get_data()
-	vol_stds = dig.vol_std(data)
-	outliers, thresholds = dig.iqr_outliers(vol_stds)
+	vol_stds = dg.vol_std(data)
+	outliers, thresholds = dg.iqr_outliers(vol_stds)
 	N = len(vol_stds)
 	x = np.arange(N)
 	plt.plot(vol_stds, label='vol std')
@@ -70,8 +71,8 @@ for i in run_img_result.keys():
 for i in run_img_result.keys():
 	img = nib.load(run_img_result[i])
 	data = img.get_data()
-	rms_dvals = dig.vol_rms_diff(data)
-	rms_outliers, rms_thresholds = dig.iqr_outliers(rms_dvals)
+	rms_dvals = dg.vol_rms_diff(data)
+	rms_outliers, rms_thresholds = dg.iqr_outliers(rms_dvals)
 	N = len(rms_dvals)
 	x = np.arange(N)
 	plt.plot(rms_dvals, label='vol RMS differences')
