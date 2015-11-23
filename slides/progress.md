@@ -1,3 +1,48 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+% Project Kappa Progress Report
+% Zheng Chang, Giancarlo Escobar, Noel Pimentel, Imran Yousuf, 
+% November 12, 2015
+
+# Background
+
+## The Paper
+
+- from OpenFMRI.org
+- ds001
+
+## The Data
+
+- 12 subjects
+- 2 conditions per subject
+
+
+## The Method
+
+- linear regression
+- machine learning
+
+# Initial work
+
+## EDA
+
+- downloaded data
+- simple plots, summary statistics
+
+## Task Time Course 
+![picture](https://github.com/changzheng1993/project-kappa/blob/master/slides/time_course.png )
+# Next steps
+
+## Preprocessing / Validation
+
+- PCA
+
+## Statistical Analysis
+
+- linear model
+=======
+>>>>>>> 0930caf578cf50ea4ecf2cfb1f4776375fc0948c
 % Project Kappa Progress Report
 % Zheng Chang, Giancarlo Escobar, Noel Pimentel, Imran Yousuf, 
 % November 12, 2015
