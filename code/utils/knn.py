@@ -13,7 +13,7 @@ y = target
 # Train on 70% of the data, test on the remaining 30%
 test_size = 0.3 
 
-X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=test_size)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
 # k = 1
 # Create the model for k =1 
