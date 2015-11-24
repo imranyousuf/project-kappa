@@ -26,7 +26,7 @@ knn.fit(X_train,y_train)
 predicted = knn.predict(X_test)
 
 # Calculate the test error
-test_error = np.mean(y_test == predicted)
+test_error = 1 - np.mean(y_test == predicted)
 
 # Get more detail information
 confusion_matrix(y_test, predicted)
@@ -44,7 +44,7 @@ knn.fit(X_train,y_train)
 predicted = knn.predict(X_test)
 
 # Calculate the test error
-test_error = np.mean(y_test == predicted)
+test_error = 1 - np.mean(y_test == predicted)
 
 # Get more detail information
 confusion_matrix(y_test, predicted)
@@ -62,7 +62,7 @@ knn.fit(X_train,y_train)
 predicted = knn.predict(X_test)
 
 # Calculate the test error
-test_error = np.mean(y_test == predicted)
+test_error = 1 - np.mean(y_test == predicted)
 
 # Get more detail information
 confusion_matrix(y_test, predicted)
