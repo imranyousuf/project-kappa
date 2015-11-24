@@ -10,7 +10,7 @@ test_size = 0.3
 X = data
 y = target
 
-X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=test_size)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
 # Create the logistic regression model 
 logreg = LogisticRegression()
@@ -22,7 +22,9 @@ logreg.fit(X_train, y_train)
 predicted = logreg.predict(X_test)
 
 # Calculate the test error
-test_error = np.mean(y_test == predicted)
+test_error = 1 - np.mean(y_test == predicted)
+
+test_error
 
 # Get more detail information
 confusion_matrix(y_test, predicted)
