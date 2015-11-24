@@ -28,6 +28,8 @@ predicted = knn.predict(X_test)
 # Calculate the test error
 test_error = 1 - np.mean(y_test == predicted)
 
+test_error
+
 # Get more detail information
 confusion_matrix(y_test, predicted)
 print(classification_report(y_test, predicted))
@@ -46,6 +48,8 @@ predicted = knn.predict(X_test)
 # Calculate the test error
 test_error = 1 - np.mean(y_test == predicted)
 
+test_error
+
 # Get more detail information
 confusion_matrix(y_test, predicted)
 print(classification_report(y_test, predicted))
@@ -63,6 +67,8 @@ predicted = knn.predict(X_test)
 
 # Calculate the test error
 test_error = 1 - np.mean(y_test == predicted)
+
+test_error
 
 # Get more detail information
 confusion_matrix(y_test, predicted)
