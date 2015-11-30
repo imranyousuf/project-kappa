@@ -8,6 +8,7 @@ See test_* functions in this directory for nose tests
 """
 
 
+
 def vol_std(data):
     """ Return standard deviation across voxels for 4D array `data`
 
@@ -23,9 +24,10 @@ def vol_std(data):
         One dimensonal array where ``std_values[i]`` gives the standard
         deviation of all voxels contained in ``data[..., i]``.
     """
-    vol_1d = [np.std(np.ravel(data[..., i])) for i in range(data.shape[-1])]
-    return(vol_1d)
-    
+    T = data.shape[-1]
+    data_2d = np.reshape(data, (-1, T))
+    return np.std(data_2d, axis=0)
+
 
 def iqr_outliers(arr_1d, iqr_scale=1.5):
     """ Return indices of outliers identified by interquartile range
@@ -48,12 +50,14 @@ def iqr_outliers(arr_1d, iqr_scale=1.5):
         Tuple containing 2 values (low threshold, high thresold) as described
         above.
     """
-    IQR = np.percentile(arr_1d, [75,25])[0] - np.percentile(arr_1d, [75,25])[1]
-    max = np.percentile(arr_1d, [75,25])[0]+(IQR*iqr_scale)
-    min = np.percentile(arr_1d, [75,25])[1]-(IQR*iqr_scale)
-    bin = [0 if arr_1d[i] <= max and arr_1d[i] >= min else 1 for i in range(len(arr_1d))]
-    return np.nonzero(bin)[0], (min,max)    
-    
+    # Hint : np.lookfor('centile')
+    # Hint : np.lookfor('nonzero')
+    pct_25, pct_75 = np.percentile(arr_1d, [25, 75])
+    iqr = pct_75 - pct_25
+    lo_thresh = pct_25 - iqr * iqr_scale
+    hi_thresh = pct_75 + iqr * iqr_scale
+    is_outlier = (arr_1d < lo_thresh) | (arr_1d > hi_thresh)
+    return np.nonzero(is_outlier)[0], (lo_thresh, hi_thresh)
 
 
 def vol_rms_diff(arr_4d):
@@ -72,8 +76,10 @@ def vol_rms_diff(arr_4d):
         the mean (across voxels) of the squared difference between volume i and
         volume i + 1.
     """
-    rms_values = np.array([np.sqrt(np.mean((arr_4d[..., i + 1] - arr_4d[..., i]) ** 2)) for i in range(arr_4d.shape[-1]-1) ])
-    return rms_values
+    T = arr_4d.shape[-1]
+    diff_data = np.diff(arr_4d, axis=-1)
+    diff_data_2d = np.reshape(diff_data, (-1, T-1))
+    return np.sqrt(np.mean(diff_data_2d ** 2, axis=0))
 
 
 def extend_diff_outliers(diff_indices):
@@ -94,5 +100,8 @@ def extend_diff_outliers(diff_indices):
         ``diff_indices``.  For example, if the input was ``[3, 7, 8, 12, 20]``,
         ``[3, 4, 7, 8, 9, 12, 13, 20, 21]``.
     """
-    noel = zip(diff_indices, diff_indices + 1)
-    return np.unique(np.array(noel).ravel())
+    # Make two columns with the second being the first plus 1
+    ext_outliers = np.column_stack((diff_indices, diff_indices + 1))
+    # Use numpy reshape ordering to get the values from the first row, then the
+    # second row etc...
+    return np.unique(ext_outliers.ravel())
