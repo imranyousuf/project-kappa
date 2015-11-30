@@ -1,3 +1,5 @@
+import numpy as np
+
 """ Diagnostics.py
 
 A collection of utility functions for diagnostics on FMRI data
@@ -5,7 +7,6 @@ A collection of utility functions for diagnostics on FMRI data
 See test_* functions in this directory for nose tests
 """
 
-import numpy as np
 
 
 def vol_std(data):
