@@ -16,7 +16,9 @@ def cond_txt(subject, run, cond):
         cond_txt = [i for i in os.listdir(list_cond_path[run-1])]
         cond_paths = [list_cond_path[run-1] + '/' + i for i in cond_txt]
         select_path = cond_paths[cond-1]
-        return np.loadtxt(select_path)
+        text = np.loadtxt(select_path)
+        return text
+
 
 def bold_data(subject, run):
         """ Returns data array of BOLD for a particular run for a subject. """
