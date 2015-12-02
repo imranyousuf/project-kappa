@@ -5,8 +5,8 @@ import wget
 import yaml
 
 # use is in order to get the hashcodes, just uncomment the two lines below
-# url = 'http://openfmri.s3.amazonaws.com/tarballs/ds105_raw_checksums.txt'
-# filename = wget.download(url)
+url = 'http://openfmri.s3.amazonaws.com/tarballs/ds105_raw_checksums.txt'
+filename = wget.download(url)
 
 hashList=[]
 with open('ds105_raw_checksums.txt', 'r') as f:
