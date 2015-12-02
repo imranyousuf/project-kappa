@@ -11,17 +11,16 @@ from nilearn.image.image import mean_img
 from nilearn.plotting.img_plotting import plot_epi, plot_roi
 
 
-def masking_img(subject, run):
+def compute_mask(subject, run):
        
          sub_path = os.path.realpath(subject)
          sub_path_bold= sub_path + '/BOLD'
          bold_path = [ i for i in os.listdir(sub_path_bold) ]
          list_bold_path= [sub_path_bold + '/' + i for i in bold_path]
          fname  =  list_bold_path[run-1] + '/' + 'bold.nii'
-         mean_img = mean_img(fname)
+         means_img = mean_img(fname)
          masking_img = compute_epi_mask(fname)
-         plot_rio(mask_img,mean_img)
-         masked_data = apply_mask(fname,mask_img)
+         masked_data = apply_mask(fname,masking_img)
          return masked_data
 
 def plot_masked_img(masked_data):
