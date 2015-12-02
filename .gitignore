@@ -57,5 +57,7 @@ coverage.xml
 doc/build/
 doc/source/_static/test.png
 
+data/fmri_data/ds105
+
 \#*
 *~
