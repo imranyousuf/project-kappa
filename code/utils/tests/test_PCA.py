@@ -1,3 +1,3 @@
-#This file is for PCA
+# #This file is for PCA
 
-import numpy as np
+# import numpy as np

@@ -1,3 +1,3 @@
-# This file is for Logistic regression
+# # This file is for Logistic regression
 
-import numpy as np
+# import numpy as np
