@@ -1,3 +1,3 @@
-# This file is for k-nearest neighbors
+# # This file is for k-nearest neighbors
 
-import numpy as np
+# import numpy as np

@@ -1,4 +1,4 @@
-# This file is for quadratic discriminant analysis
+# # This file is for quadratic discriminant analysis
 
-import numpy as np
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+# import numpy as np
+# from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
