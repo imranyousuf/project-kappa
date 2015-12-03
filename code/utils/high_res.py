@@ -14,10 +14,10 @@ def highRes_data(subject, task_num, TR = 2.5, tr_divs = 10):
 		Please specific the subject. For example, you should input 'sub001' if choose the first subject
 	task_num: str
 		Please specific the subject. For example, you should input 'task001_run001' if choose the first run.
-	TR: float
-		TR in seconds
-	tr_divs: int
-		number of the steps per TR
+    TR: float (opitional)
+        TR in seconds. The default value is 2.5
+    tr_divs: int (opitional)
+        number of the steps per TR. The default value is 10
 
 	Results
 	-------
@@ -29,6 +29,7 @@ def highRes_data(subject, task_num, TR = 2.5, tr_divs = 10):
 
 
 	"""
+	
 	img = nib.load(path_bold(subject, task_num) + '/bold.nii.gz')
 	data = img.get_data()
 	n_trs = data.shape[-1]

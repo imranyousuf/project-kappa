@@ -1,6 +1,6 @@
 # This file is for Logistic regression
 
-from numpy as np
+import numpy as np
 from sklearn.linear_model import LogisticRegression
 
 def lr(X_train, X_test, y_train, y_test):
@@ -21,11 +21,12 @@ def lr(X_train, X_test, y_train, y_test):
         -------
         test_error: float
             test error
-        
-        """
-        logreg = LogisticRegression()
-        logreg.fit(X_train, y_train)
-        predicted = logreg.predict(X_test)
-        test_error = 1 - np.mean(y_test == predicted)
+            
+    """
+
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
+    predicted = logreg.predict(X_test)
+    est_error = 1 - np.mean(y_test == predicted)
                             
-        return test_error
+    return test_error
