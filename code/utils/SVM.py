@@ -1,71 +1,39 @@
 # This file is for support vector machine
 
-import numpy as np 
-from sklearn.cross_validation import train_test_split
+import numpy as np
 from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix
-
-X = data
-y = target
-
-# Train on 70% of the data, test on the remaining 30%
-test_size = 0.3 
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
 
-# Create the support vector machine model with the default parameter values
-clf = SVC()
+def svm(X_train, X_test, y_train, y_test, method):
+    """ This function returns test_error by support vector machine
+        
+    Parameters
+    ----------
+    X_train: 2D array
+        Training feature data set
+    X_test: 2D array
+        Test feature data set
+    y_train: 1D array
+        Training response variable
+    y_test: 1D array
+        Test response variable
+    method: string
+        method of algorithms for pattern analysis.
+        There are four types of kernel: linear, rbf, polynomial, and sigmoid
+        
+    Returns
+    -------
+    test_error: float
+        test error
+        
+    """
 
-# fit the train data
-clf.fit(X_train, y_train)
-
-# Predict the response variable
-predicted = clf.predict(X_test)
-
-#calculate the test error
-test_error = 1 - np.mean(y_test == predicted)
-
-test_error
-
-# get the detail information
-print(classification_report(y_test, predicted))
-confusion_matrix(y_test, predicted)
-
-
-# Create the support vector machine model with the linear kernal and fit the data
-clf = SVC()
-clf.set_params(kernel='linear').fit(X_train, y_train) 
-
-# Predict the response variable
-predicted = clf.predict(X_test)
-
-#calculate the test error
-test_error = 1 - np.mean(y_test == predicted)
-
-test_error
-
-# get the detail information
-print(classification_report(y_test, predicted))
-confusion_matrix(y_test, predicted)
-
-
-
-# create the support vector machine model with the radial kernel kernal and fit the data
-clf = SVC()
-clf.set_params(kernel='rbf').fit(X_train, y_train) 
-
-# Predict the response variable
-predicted = clf.predict(X_test)
-
-#calculate the test error
-test_error = 1 - np.mean(y_test == predicted)
-
-test_error
-
-# get the detail information
-print(classification_report(y_test, predicted))
-confusion_matrix(y_test, predicted)
+    clf = SVC()
+    clf.set_params(kernel = method).fit(X_train, y_train)
+    predicted = clf.predict(X_test)
+    test_error = 1 - np.mean(y_test == predicted)
+        
+    return test_error
 
 
 

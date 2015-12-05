@@ -1,33 +1,32 @@
 # This file is for quadratic discriminant analysis
 
 import numpy as np
-from sklearn.cross_validation import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
-
-X = data
-y = target
-
-# Train on 70% of the data, test on the remaining 30%
-test_size = 0.3
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-
-# Create the support linear discriminant analysis
-clf = QuadraticDiscriminantAnalysis()
-
-# fit the train data
-clf.fit(X_train, y_train)
-
-# Predict the response variable
-predicted = clf.predict(X_test)
-
-#calculate the test error
-test_error = 1 - np.mean(y_test == predicted)
-
-test_error
-
-# get the detail information
-print(classification_report(y_test, predicted))
-confusion_matrix(y_test, predicted)
+def qda(X_train, X_test, y_train, y_test):
+    """ This function returns test_error by using quadratic discriminant analysis
+        
+    Parameters
+    ----------
+    X_train: 2D array
+        Training feature data set
+    X_test: 2D array
+        Test feature data set
+    y_train: 1D array
+        Training response variable
+    y_test: 1D array
+        Test response variable
+        
+    Returns
+    -------
+    test_error: float
+        test error
+        
+    """
+            
+    clf = QuadraticDiscriminantAnalysis()
+    clf.fit(X_train, y_train)
+    predicted = clf.predict(X_test)
+    test_error = 1 - np.mean(y_test == predicted)
+                            
+    return test_error

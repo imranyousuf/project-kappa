@@ -1,31 +1,32 @@
 # This file is for Logistic regression
 
-from numpy as np 
-from sklearn.cross_validation import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
+import numpy as np
 from sklearn.linear_model import LogisticRegression
 
-# Train on 70% of the data, test on the remaining 30%
-test_size = 0.3 
-X = data
-y = target
+def lr(X_train, X_test, y_train, y_test):
+    """ This function returns test_error by using logistic regression
+        
+        Parameters
+        ----------
+        X_train: 2D array
+            Training feature data set
+        X_test: 2D array
+            Test feature data set
+        y_train: 1D array
+            Training response variable
+        y_test: 1D array
+            Test response variable
+        
+        Returns
+        -------
+        test_error: float
+            test error
+            
+    """
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-
-# Create the logistic regression model 
-logreg = LogisticRegression()
-
-# fit the model with data
-logreg.fit(X_train, y_train)
-
-# predict the response variable
-predicted = logreg.predict(X_test)
-
-# Calculate the test error
-test_error = 1 - np.mean(y_test == predicted)
-
-test_error
-
-# Get more detail information
-confusion_matrix(y_test, predicted)
-print(classification_report(y_test, predicted))
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
+    predicted = logreg.predict(X_test)
+    est_error = 1 - np.mean(y_test == predicted)
+                            
+    return test_error
