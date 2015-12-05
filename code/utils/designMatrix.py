@@ -58,3 +58,18 @@ show_design(X)
 time_by_vox = np.reshape(data, (-1, n_vols)).T
 Xp = npl.pinv(X)
 beta_hats = Xp.dot(time_by_vox)
+fitted = X.dot(beta_hats)
+residuals = time_by_vox - fitted
+df = n_vols - npl.matrix_rank(X)
+mrss = np.sum(residuals ** 2, axis=0) / df
+print(np.mean(mrss))
+
+# Reshape the beta into 4 dimensions
+# Reshape the MRSS into 3 dimensions
+# Reshape the residuals into 4 dimensions
+# Reshape the fitted into 4 dimensions
+beta_4d = np.reshape(beta_hats.T, data.shape[:-1] + (-1,))
+mrss_3d = np.reshape(mrss.T, data.shape[:-1])
+residuals_4d = np.reshape(residuals.T, data.shape)
+fitted = np.reshape(fitted.T, data.shape)
+
