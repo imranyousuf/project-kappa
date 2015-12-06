@@ -1,5 +1,5 @@
-data:
-	wget http://www.jarrodmillman.com/rcsds/_downloads/ds107_sub001_highres.nii
+target:
+	sh downloader.sh
 
 validate:
-	python data.py
+	python verify_data.py
