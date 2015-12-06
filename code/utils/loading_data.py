@@ -6,7 +6,7 @@ import diagnostics as dg
 
 
 
-def cond_txt(subject, run, cond):
+def cond_file(subject, run, cond):
         """ Opens a condition txt for a subject and one of their runs. """
 
         sub_path = os.path.realpath(subject)
@@ -16,8 +16,7 @@ def cond_txt(subject, run, cond):
         cond_txt = [i for i in os.listdir(list_cond_path[run-1])]
         cond_paths = [list_cond_path[run-1] + '/' + i for i in cond_txt]
         select_path = cond_paths[cond-1]
-        text = np.loadtxt(select_path)
-        return text
+        return select_path
 
 
 def bold_data(subject, run):
