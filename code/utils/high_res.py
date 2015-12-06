@@ -1,3 +1,5 @@
+from __future__ import division
+from __future__ import absolute_import
 import numpy as np
 import nibabel as nib
 import os
@@ -6,7 +8,7 @@ from path_bold import *
 from cond_path import *
 
 def highRes_data(subject, task_num, TR = 2.5, tr_divs = 10):
-	""" This functions returs high resolution data
+	u""" This functions returs high resolution data
 
 	Parameter
 	---------
@@ -30,7 +32,7 @@ def highRes_data(subject, task_num, TR = 2.5, tr_divs = 10):
 
 	"""
 	
-	img = nib.load(path_bold(subject, task_num) + '/bold.nii.gz')
+	img = nib.load(path_bold(subject, task_num) + u'/bold.nii.gz')
 	data = img.get_data()
 	n_trs = data.shape[-1]
 	data_2d = np.reshape(data, (121,-1))
@@ -61,6 +63,7 @@ def highRes_data(subject, task_num, TR = 2.5, tr_divs = 10):
 	X = np.array(X)
 	X = np.reshape(X, (X.shape[0] * X.shape[1], -1))
 	y = np.sort(high_res_neural[np.nonzero(high_res_neural)])
+
 
 	return X, y
 
