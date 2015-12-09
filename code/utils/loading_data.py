@@ -2,11 +2,11 @@ import numpy as np
 import nibabel as nib
 import matplotlib.pyplot as plt
 import os
-import diagnostics as dg
 
 
 
-def cond_txt(subject, run, cond):
+
+def cond_file(subject, run, cond):
         """ Opens a condition txt for a subject and one of their runs. """
 
         sub_path = os.path.realpath(subject)
@@ -16,11 +16,10 @@ def cond_txt(subject, run, cond):
         cond_txt = [i for i in os.listdir(list_cond_path[run-1])]
         cond_paths = [list_cond_path[run-1] + '/' + i for i in cond_txt]
         select_path = cond_paths[cond-1]
-        text = np.loadtxt(select_path)
-        return text
+        return select_path
 
 
-def bold_data(subject, run):
+"""def bold_data(subject, run):
         """ Returns data array of BOLD for a particular run for a subject. """
 
         sub_path = os.path.realpath(subject)
@@ -29,3 +28,21 @@ def bold_data(subject, run):
         list_bold_path= [sub_path_bold + '/' + i for i in bold_path]
         select_run =  list_bold_path[run-1] + '/' + 'bold.nii'
         return nib.load(select_run).get_data()
+
+
+def bold_data(subject, run):
+
+        sub_path = os.path.realpath(str(subject))
+        sub_path_bold = sub_path + '/model/model001'
+        bold_paths = [i for i in os.listdir(sub_path_bold)]
+        list_bold_path = [sub_path_bold + '/' + i for i in bold_paths]
+        select_run = list_bold_path[run-1] + '/filtered_func_data_mni.nii.gz'
+        return nib.load(select_run).get_data()
+"""
+
+def bold_data(subject, run):
+        sub_path = os.path.realpath(subject)
+        direct_path = os.path.join(sub_path,'model/model001','task001_run00'+str(run)+'.feat','filtered_func_data_mni.nii.gz')
+        img= nib.load(direct_path
+        data = img.get_data()
+        return data

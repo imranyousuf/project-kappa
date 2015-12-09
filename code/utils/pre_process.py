@@ -1,17 +1,18 @@
-import numpy as np
-import nibabel as nib
-import matplotlib.pyplot as plt
-import os
-from nilearn import image
-from nilearn.masking import compute_epi_mask
-from nilearn.image.image import mean_img
-from nilearn.plotting.img_plotting import plot_epi, plot_roi
-from nilearn.masking import apply_mask
-from nilearn.masking import compute_epi_mask
-from nilearn.image.image import mean_img
-from nilearn.plotting.img_plotting import plot_epi, plot_roi
+from dipy.segment.mask import median_otsu
+from scipy.ndimage import gaussian_filter
+from loading_data import *
 
+def smooth_mask(subject, run):
+         """ Applies smoothing and computes mask. Applies mask to smoothed data """
 
+<<<<<<< HEAD
+         data = bold_data(subject, run)
+         mean_data = np.mean(data,axis=-1)
+         masked, mask = median_otsu(mean_data,2,1)
+         smooth_data = gaussian_filter(data,[2,2,2,0])
+         smooth_masked = smooth_data[mask]
+         return smooth_masked.T
+=======
 def mask_data(subject, run):
        
          sub_path = os.path.realpath(subject)
@@ -23,25 +24,17 @@ def mask_data(subject, run):
          masking_img = compute_epi_mask(fname)
          masked_data = apply_mask(fname,masking_img)
          return masked_data
+>>>>>>> 1a64574723fd32954628437ce979c1860d16a653
 
-def plot_masked_img(masked_data):
-         plt.figure(figsize=(7, 5))
-         plt.plot(masked_data[:2, :150].T)
-         plt.xlabel('Time [TRs]', fontsize=16)
-         plt.ylabel('Intensity', fontsize=16)
-         plt.xlim(0, 150)
-         plt.subplots_adjust(bottom=.12, top=.95, right=.95, left=.12)
-         return plt.show()
+
+def masked_data(subject, run):
+         data = bold_data(subject, run)
+         mean_data = np.mean(data,axis=-1)
+         masked, mask = median_otsu(mean_data,2,1)
+         masked_data = data[mask]
+         return masked_data.T
 
 def smooth_data(subject, run):
-         sub_path = os.path.realpath(subject)
-         sub_path_bold= sub_path + '/BOLD'
-         bold_path = [ i for i in os.listdir(sub_path_bold) ]
-         list_bold_path= [sub_path_bold + '/' + i for i in bold_path]
-         fname  =  list_bold_path[run-1] + '/' + 'bold.nii'
-         fmri_file = image.smooth_img(fname,fwhm=6)
-         return fmri_file
-
-def plot_smooth_mean(smooth_img):
-         means_img=image.mean_img(smooth_img)
-         return plot_epi(means_img, title = 'Smoothed mean')
+         data = bold_data(subject, run)
+         smooth_data = gaussian_filter(data,[2,2,2,0])
+         return smooth_data
