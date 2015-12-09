@@ -1,7 +1,9 @@
-# This function is from the lecture of Day 13
-
 import numpy.linalg as npl
 from scipy.stats import t as t_dist
+import scipy.stats
+from scipy.stats import gamma
+import numpy as np
+
 
 def t_stat(y, X, c):
     """ betas, t statistic and significance test given data, design matrix, contrast
@@ -41,3 +43,17 @@ def t_stat(y, X, c):
     p = 1 - ltp # upper tail p
     
     return beta, t, df, p
+
+
+
+    def hrf(tr_times):
+    """ Return values for HRF at given times """
+
+    # Gamma pdf for the peak
+    peak_values = gamma.pdf(tr_times, 6)
+    # Gamma pdf for the undershoot
+    undershoot_values = gamma.pdf(tr_times, 12)
+    # Combine them
+    values = peak_values - 0.35 * undershoot_values
+    # Scale max to 0.6
+    return values / np.max(values) * 0.6
