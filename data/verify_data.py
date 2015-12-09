@@ -1,7 +1,7 @@
 from __future__ import print_function, division
 import hashlib
 import os
-import wget
+#import wget
 import yaml
 
 # use is in order to get the hashcodes, just uncomment the two lines below and add wget to requirements
@@ -31,7 +31,7 @@ def generate_file_md5(filename, blocksize=2**20):
 
 def check_hashes(o):
 	all_good = True
-	with open('hash.json', 'r') as f:
+	with open('hash.txt', 'r') as f:
 		for line in f:
 			hashDict=line.rstrip()
 			m = yaml.load(hashDict)

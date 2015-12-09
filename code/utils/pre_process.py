@@ -16,9 +16,9 @@ def mask_data(subject, run):
        
          sub_path = os.path.realpath(subject)
          sub_path_bold= sub_path + '/BOLD'
-         bold_path = [ i for i in os.listdir(sub_path_bold) ]
+         bold_path = [ i for i in os.listdir(sub_path_bold) if not (i.startswith('.'))]
          list_bold_path= [sub_path_bold + '/' + i for i in bold_path]
-         fname  =  list_bold_path[run-1] + '/' + 'bold.nii'
+         fname  =  list_bold_path[run-1] + '/' + 'bold.nii' 
          means_img = mean_img(fname)
          masking_img = compute_epi_mask(fname)
          masked_data = apply_mask(fname,masking_img)
