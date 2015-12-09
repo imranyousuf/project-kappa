@@ -19,7 +19,7 @@ def list_every_cond(subject, task_num):
 
 	"""
 
-	sub_path = os.path.realpath(subject)
+	sub_path = os.path.realpath('ds105/' + subject)
 	sub_path_cond = sub_path + '/model/model001/onsets' + '/' + task_num
 	condition = [ i for i in os.listdir(sub_path_cond) if not (i.startswith('.'))]
 
