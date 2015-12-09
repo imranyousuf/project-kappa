@@ -5,14 +5,14 @@ from loading_data import *
 def smooth_mask(subject, run):
          """ Applies smoothing and computes mask. Applies mask to smoothed data """
 
-<<<<<<< HEAD
+
          data = bold_data(subject, run)
          mean_data = np.mean(data,axis=-1)
          masked, mask = median_otsu(mean_data,2,1)
          smooth_data = gaussian_filter(data,[2,2,2,0])
          smooth_masked = smooth_data[mask]
          return smooth_masked.T
-=======
+
 def mask_data(subject, run):
        
          sub_path = os.path.realpath(subject)
@@ -24,7 +24,7 @@ def mask_data(subject, run):
          masking_img = compute_epi_mask(fname)
          masked_data = apply_mask(fname,masking_img)
          return masked_data
->>>>>>> 1a64574723fd32954628437ce979c1860d16a653
+
 
 
 def masked_data(subject, run):

@@ -44,4 +44,4 @@ def design_matrix(subject, run, TR = 2.5):
       betas_vols = np.zeros(vol_shape+(11,))
       betas_vols[mask] = betas.T
       
-      return X, betas_vols
+      return X, Y, betas_vols, mask
