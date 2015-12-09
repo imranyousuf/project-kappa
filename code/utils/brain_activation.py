@@ -1,3 +1,12 @@
+import numpy as np
+import numpy.linalg as npl
+import matplotlib.pyplot as plt
+import nibabel as nib
+from dipy.segment.mask import median_otsu
+from scipy.ndimage import gaussian_filter
+from matplotlib import colors
+from scipy.misc import imread
+
 def brain_activation(subject, task_run, condition, TR = 2.5):
 	img = nib.load(path_bold(subject, task_run) + 'filtered_func_data_mni.nii.gz')
 	data = img.get_data()
