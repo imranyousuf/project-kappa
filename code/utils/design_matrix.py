@@ -30,7 +30,15 @@ def design_matrix(subject, run, TR = 2.5):
       # Y = smooth_data[mask].T
       #omitted smoothing for now
       Y = data[mask].T
-   
+      
+      #Adding onsets to design matrix
+      for i in list_cond_file(subject,run):
+          neural_prediction = events2neural_fixed(i, TR, n_trs)
+          convolved = convolve(neural_prediction, hrf_at_trs)
+          X[:,col] = convolved
+          col = col+1
+
+
       ##PCA
       Y_demeaned = Y - np.mean(Y,axis=1).reshape([-1,1])
       unscaled_cov = Y_demeaned.dot(Y_demeaned.T) 
@@ -38,11 +46,8 @@ def design_matrix(subject, run, TR = 2.5):
       X[:,8] = U[:,0]
       X[:,9] = U[:,6] 
 
-      for i in list_cond_file(subject,run):
-             neural_prediction = events2neural_fixed(i, TR, n_trs)
-             convolved = convolve(neural_prediction, hrf_at_trs)
-             X[:,col] = convolved
-             col = col+1
+     
+
 
       linear_drift = np.linspace(-1,1,n_trs)
       X[:,10] = linear_drift
