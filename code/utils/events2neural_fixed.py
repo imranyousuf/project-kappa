@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def events2neural_fixed(task_fname, tr, n_trs):
     """ Return predicted neural time course from event file `task_fname`
 
