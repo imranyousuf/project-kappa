@@ -9,7 +9,7 @@ import yaml
 # filename = wget.download(url)
 
 hashList=[]
-with open('ds105_raw_checksums.txt', 'r') as f:
+with open('checksums.txt', 'r') as f:
 	for line in f:
 		elements = line.rstrip().split()
 		kossop = line.rstrip().split()
