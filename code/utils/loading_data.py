@@ -9,7 +9,7 @@ import os
 def cond_file(subject, run, cond):
         """ Opens a condition txt for a subject and one of their runs. """
         sub_path = os.path.realpath('../../data/ds105/'+subject)
-        sub_path_cond= os.path.join(sub_path,'model/model001/onsets','task001_run00'+str(run),'cond00'+str(cond))
+        sub_path_cond= os.path.join(sub_path,'model/model001/onsets','task001_run0'+str(run).zfill(2) ,'cond00'+str(cond))
         return sub_path_cond
 
 def list_cond_file(subject, run):
@@ -23,7 +23,7 @@ def list_cond_file(subject, run):
 
 def bold_data(subject, run):
         sub_path = os.path.realpath('../../data/preprocessed_ds105/'+str(subject))
-        direct_path = os.path.join(sub_path,'model/model001','task001_run00'+str(run)+'.feat','filtered_func_data_mni.nii.gz')
+        direct_path = os.path.join(sub_path,'model/model001','task001_run0'+str(run).zfill(2) +'.feat','filtered_func_data_mni.nii.gz')
         img= nib.load(direct_path)
         data = img.get_data()
         return data
