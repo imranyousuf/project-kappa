@@ -16,9 +16,9 @@ def list_cond_file(subject, run):
         sub_path = os.path.realpath('../../data/ds105/'+str(subject))
         sub_path_cond= sub_path + '/model/model001/onsets'
         cond_path = [ i for i in os.listdir(sub_path_cond) ]
-        list_cond_path= [sub_path_cond + '/' + i for i in cond_path]
+        list_cond_path= [sub_path_cond + '/' + i for i in cond_path if not (i.startswith('.'))]
         cond_txt = [i for i in os.listdir(list_cond_path[run-1])]
-        cond_paths = [list_cond_path[run-1] + '/' + i for i in cond_txt]
+        cond_paths = [list_cond_path[run-1] + '/' + i for i in cond_txt if not (i.startswith('.'))]
         return cond_paths
 
 def bold_data(subject, run):
