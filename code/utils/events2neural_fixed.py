@@ -1,13 +1,7 @@
-""" Functions to work with standard OpenFMRI stimulus files
-
-The functions have docstrings according to the numpy docstring standard - see:
-
-    https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
-"""
-
 import numpy as np
 
-def events2neural(task_fname, tr, n_trs):
+
+def events2neural_fixed(task_fname, tr, n_trs):
     """ Return predicted neural time course from event file `task_fname`
 
     Parameters
@@ -30,6 +24,11 @@ def events2neural(task_fname, tr, n_trs):
         raise ValueError("Is {0} really a task file?", task_fname)
     # Convert onset, duration seconds to TRs
     task[:, :2] = task[:, :2] / tr
+    # Round to nearest TR
+    task[:, :2] = np.round(task[:, :2])
+    # Set durations less than 1, to be 1
+    dur_lt_1 = task[:, 1] < 1
+    task[dur_lt_1,1] = 1
     # Neural time course from onset, duration, amplitude for each event
     time_course = np.zeros(n_trs)
     for onset, duration, amplitude in task:

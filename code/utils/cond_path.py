@@ -19,7 +19,7 @@ def cond_path(subject, task_num, cond_num):
 		This is the path of the condition file that you choose.
 	"""
 
-	sub_path = os.path.realpath(subject)
+	sub_path = os.path.realpath('ds105/' + subject)
 	path = sub_path + '/model/model001/onsets' + '/' + task_num + '/' + cond_num
 
 	return path
