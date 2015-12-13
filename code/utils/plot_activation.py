@@ -6,8 +6,6 @@ def plot_act(subject, betas_vols, mean_data, mask, condition ):
         
     mean_data[~mask]=np.nan 
     betas_vols[~mask]=np.nan
-    #nice_cmap_values = np.loadtxt('actc.txt')
-    #nice_cmap = colors.ListedColormap(nice_cmap_values,'actc')
 
     activation_path = str(subject) + '_c' + str(condition) + '_act'
     os.makedirs(activation_path)
