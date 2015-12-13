@@ -4,7 +4,7 @@
 
 \graphicspath{ {image/} }
 
-\title{Classification of fMRI Data}
+\title{Report}
 \author{
   Chang, Zheng\\
   \texttt{changzheng1993}
@@ -16,7 +16,7 @@
   \texttt{noelpimentel}
   \and
   Yousuf, Imran\\
-  \texttt{imranyousu}
+  \texttt{imranyousuf}
 }
 
 \bibliographystyle{siam}
@@ -118,35 +118,24 @@ time (i.e. 121 volumes of time).
 
 \section{Methods}
 
-\subsection{Preprocessing/ EDA}
+\subsection{Linear Model}
+Ideally we want to detect any signal in relation to a task i.e. we want to determine which voxels contain high activation based on BOLD response to stimulus, (e.g. house, face, cat, shoe, house, scrambled, chair, bottle). We may detect signal by subtracting task from rest or by calculating a correlation between the task-on / task-off vector and the voxel time course. However, by using a Generalized Linear Model to fit our fMRI time series data, we will able to calculate a unique weight for each voxel that represents the different level of activation across all the voxels that we can use to distinguish BOLD response per stimulus.  We will regress the BOLD time series across all voxels against the timing and duration of each stimuli (8 predictors) The GLM for our fMRI data is:
 
-The Haxby data consists of six folders for each individual subject. Each of 
-these folders contains the fMRI data along within 12 folders, one for each run. 
- The structure of the data is cumbersome and for reasons of reproducibility, 
-and for our own sake, we implemented code to merge these 12 runs by calling on 
-a function and passing through the argument of subject name (i.e. 'sub001', 
-'sub002',..., 'sub012').  This code conveniently merges the 12 runs for any 
-specified subject. fMRI can have a considerable degree of noise. There are 
-often volumes with an unusual degree of noise and for that reason these volumes 
-can produce outliers in voxel time-courses. Another sign of an artifact in a 
-volume is that a given volume is very different from the preceding volume. This 
-would imply a sudden wide-spread shift in signal. 
+y? =X?? +??
 
-We calculated the standard deviation of every volume, 121x12 = 1452 volumes, 
-for each subject and identified outliers with two methods. The first method was 
-the interquartile range which is the value of the 75th percentile minus the 
-25th percentile. We might decide to declare a value as an outlier, if the value 
-(i.e. voxel standard deviation) is greater than 1.5 * IQR added to the 75th 
-percentile, or lower than 1.5 * IQR subtracted from the 25th percentile. The 
-second method assesses outliers by taking the square root of the mean of the 
-squared voxel values where these voxel values correspond to the difference of a 
-subject's 3D volume from the subsequent volume. The interquartile range method 
-is applied to these values to obtain outliers.
+Y is our BOLD signal, X the design matrix with our predictors, B the that describe the relationship between the predictors and response, and E the unexplained noise in the BOLD data.
 
-\includegraphics[scale=0.75]{vol_rms_outliers.png}
+\subsection{Design}
+Before we performed a regression analysis, we masked the data in order to distinguish the voxels that are in the brains versus the voxels that are outside the brain. Before applying a mask on subject001 run001 (fig X), we took the mean volume (over time) (3D brain image) and plotted a histogram of the mean volume values. (Fig x). By selecting the correct threshold, we will be able identify the voxels inside the brain, a 3D brain mask. We first selected a threshold of 1100. We then carelessly looped through each subject and run and applied the same threshold of 1100 only to conclude that threshold will differ between subjects and their runs (Figs X-Z: histogram showing different thresholds are needed). 
 
-If we have done a good job of identifying and removing outliers, we would 
-expect a drop in the residuals from a statistical model (e.g. linear model).
+                                                  Figs X-Z (hist)
+                                                   and brain images using the same threshold
+
+To effectively solve this problem, we used FUNCTION that provides an algorithm that computes a unique threshold, therefore a unique mask, for each subject and run. This method was more efficient and accurate as we showed that the voxels within the brain slightly vary  across subjects and their runs. Here are the resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for each run. We can clearly see the algorithm has  more accurately selected the voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, we can now perfomm a regression analysis on the subset of voxels that are in the brain.              
+\subsection{}
+
+\subsection{}
+
 
 
 \section{Results}
