@@ -5,7 +5,7 @@ def t_test(beta_diffrence):
 
 	Parameters
 	----------
-	beta_diffrence: 1d array
+	beta_diffrence: 2d array
 		this should be the difference between two categories
 
 	Return
@@ -36,6 +36,12 @@ def t_map(beta_dictionary, category1, category2):
 	t_difference_3d: 3d array
 		this returns t-value for each voxel
 
+
+	Examples
+	--------
+	>>> a = np.array([[2,4],[3,6]])
+	>>> t_test(a)
+	[5.0, 5.0]
 	"""
 
 	beta_difference_matrix = []
