@@ -1,7 +1,8 @@
 .DS_Store
 
-ds105/
-preprocessed_ds105/
+data/ds105/
+data/ds105_cond/
+data/__MACOSX
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
