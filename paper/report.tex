@@ -24,7 +24,8 @@
 \begin{document}
 \maketitle
 
-\abstract{The functional architecture of the object vision pathway in the human brain was 
+\abstract{The functional architecture of the object vision pathway in the human 
+brain was 
 investigated using fMRI imaging to measure patterns of response in ventral 
 temporal cortex while subjects viewed categories of objects in Haxby et al. 
 [Science 293 (2001) 2425] \cite {haxby2001vt}. Haxby argued that 
@@ -115,73 +116,156 @@ different angles; stimuli for each meaningful category were four images each of
 121) that can be read as 64 slices 64 X 40 BOLD for 121 contiguous slices in 
 time (i.e. 121 volumes of time).
 
-\section[Preprocessing]
+\section{Preprocessing}
 
-\subsection[Masking]
+\subsection{Masking}
 
-Since our fMRI data is represented as a 4D block of data, we are interested in working on the voxel time-series in the brain. It is then necessary to apply a mask on the 4D brain images to subset the voxels in the brain that we will be analyzing.
+Since our fMRI data is represented as a 4D block of data, we are interested in 
+working on the voxel time-series in the brain. It is then necessary to apply a 
+mask on the 4D brain images to subset the voxels in the brain that we will be 
+analyzing.
 
 \subsection{Smoothing}
 
-fMRI data has a low signal-to-noise ratio. Any reduction of random noise in the image will imporve the ability to detect true activation.  For this reason, smooth has become a commonly used pre-processing step in the analysis of fMRI data. Smoothing the data will improve our signal to noise ratio by applying a small blurring kernel across the image.
+fMRI data has a low signal-to-noise ratio. Any reduction of random noise in the 
+image will imporve the ability to detect true activation.  For this reason, 
+smooth has become a commonly used pre-processing step in the analysis of fMRI 
+data. Smoothing the data will improve our signal to noise ratio by applying a 
+small blurring kernel across the image.
 
 \section{Methods}
 
 \subsection{Linear Model}
-Ideally we want to detect any signal in relation to a task i.e. we want to determine which voxels contain high activation based on BOLD response to stimulus, (e.g. house, face, cat, shoe, house, scrambled, chair, bottle). We may detect signal by subtracting task from rest or by calculating a correlation between the task-on / task-off vector and the voxel time course. However, by using a Generalized Linear Model to fit our fMRI time series data, we will able to calculate a unique weight for each voxel that represents the different level of activation across all the voxels that we can use to distinguish BOLD response per stimulus.  We will regress the BOLD time series across all voxels against the timing and duration of each stimuli (8 predictors) The GLM for our fMRI data is:
+Ideally we want to detect any signal in relation to a task i.e. we want to 
+determine which voxels contain high activation based on BOLD response to 
+stimulus, (e.g. house, face, cat, shoe, house, scrambled, chair, bottle). We 
+may detect signal by subtracting task from rest or by calculating a correlation 
+between the task-on / task-off vector and the voxel time course. However, by 
+using a Generalized Linear Model to fit our fMRI time series data, we will able 
+to calculate a unique weight for each voxel that represents the different level 
+of activation across all the voxels that we can use to distinguish BOLD 
+response per stimulus.  We will regress the BOLD time series across all voxels 
+against the timing and duration of each stimuli (8 predictors) The GLM for our 
+fMRI data is:
 
 y? =X?? +??
 
-Y is our BOLD signal, X the design matrix with our predictors, B the that describe the relationship between the predictors and response, and E the unexplained noise in the BOLD data.
+Y is our BOLD signal, X the design matrix with our predictors, B the that 
+describe the relationship between the predictors and response, and E the 
+unexplained noise in the BOLD data.
 
 \subsection{Design}
-Before we performed a regression analysis, we masked the data in order to distinguish the voxels that are in the brains versus the voxels that are outside the brain. Before applying a mask on subject001 run001 (fig X), we took the mean volume (over time) (3D brain image) and plotted a histogram of the mean volume values. (Fig x). By selecting the correct threshold, we will be able identify the voxels inside the brain, a 3D brain mask. We first selected a threshold of 1100. We then carelessly looped through each subject and run and applied the same threshold of 1100 only to conclude that threshold will differ between subjects and their runs (Figs X-Z: histogram showing different thresholds are needed). 
+Before we performed a regression analysis, we masked the data in order to 
+distinguish the voxels that are in the brains versus the voxels that are 
+outside the brain. Before applying a mask on subject001 run001 (fig X), we took 
+the mean volume (over time) (3D brain image) and plotted a histogram of the 
+mean volume values. (Fig x). By selecting the correct threshold, we will be 
+able identify the voxels inside the brain, a 3D brain mask. We first selected a 
+threshold of 1100. We then carelessly looped through each subject and run and 
+applied the same threshold of 1100 only to conclude that threshold will differ 
+between subjects and their runs (Figs X-Z: histogram showing different 
+thresholds are needed). 
 
-                                                  Figs X-Z (hist)
-                                                   and brain images using the same threshold
+		Figs X-Z (hist) and brain images using the same threshold
 
-To effectively solve this problem, we used FUNCTION that provides an algorithm that computes a unique threshold, therefore a unique mask, for each subject and run. This method was more efficient and accurate as we showed that the voxels within the brain slightly vary  across subjects and their runs. Here are the resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for each run. We can clearly see the algorithm has  more accurately selected the voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, we can now perfomm a regression analysis on the subset of voxels that are in the brain.              
+To effectively solve this problem, we used FUNCTION that provides an algorithm 
+that computes a unique threshold, therefore a unique mask, for each subject and 
+run. This method was more efficient and accurate as we showed that the voxels 
+within the brain slightly vary  across subjects and their runs. Here are the 
+resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for 
+each run. We can clearly see the algorithm has  more accurately selected the 
+voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, 
+we can now perfomm a regression analysis on the subset of voxels that are in 
+the brain.    
+          
 \subsection{Hemodynamic Response}
-Hemodynamic Response
 
-Our design matrix consists of 8 predictors, representing the ideal time series that represent what we think the response should look like to each of the eight stimulus.. Ideally we want to know the activation at the neuronal level but this is beyond the capability of fMRI, for we don’t know when that signal is occurring other than the time intervals in which the subject is shown the stimuli. To account for this we have to convolve with the hemodynamic response function. Hemodynamic response (HDR) allows the rapid delivery of blood to active neuronal tissues. If a subject is shown a photo of a cat the brain will presumably receive a rapid delivery of blood to activate the neuronal tissues for identifying/processing cat. The probability density function of the gamma distribution
-  
-           Gamma(r, lambda) = (1/gamma(r)) * lambda^r * x^r-1 * e^-lambda*t
+Our design matrix consists of 8 predictors, representing the ideal time series 
+that represent what we think the response should look like to each of the eight 
+stimulus.. Ideally we want to know the activation at the neuronal level but 
+this is beyond the capability of fMRI, for we don’t know when that signal 
+is occurring other than the time intervals in which the subject is shown the 
+stimuli. To account for this we have to convolve with the hemodynamic response 
+function. Hemodynamic response (HDR) allows the rapid delivery of blood to 
+active neuronal tissues. If a subject is shown a photo of a cat the brain will 
+presumably receive a rapid delivery of blood to activate the neuronal tissues 
+for identifying/processing cat. The probability density function of the gamma 
+distribution
+	
+	         Gamma(r, lambda)
 
-can model this situation and provide us with a continuous function that is close to the hemodynamic response we observe for a single brief event in the brain.
+can model this situation and provide us with a continuous function that is 
+close to the hemodynamic response we observe for a single brief event in the 
+brain.
 
-          Image of onsets blocks
-        Image of onsets blocks with HDR
+		Image of onsets blocks
+		Image of onsets blocks with HDR
 
-By using HDR to create the convolved regressors, we bridged through neural response and BOLD. These predictors will now closely simulate the onsets and allow our model to more accurately capture the changes in the BOLD activation associated with the presentation of stimulus to the subject.
+By using HDR to create the convolved regressors, we bridged through neural 
+response and BOLD. These predictors will now closely simulate the onsets and 
+allow our model to more accurately capture the changes in the BOLD activation 
+associated with the presentation of stimulus to the subject.
 
+This results to the following design matrix (X):
 
-  This results to the following design matrix (X):
-
-                                       Design Matrix with color bar  *describe color bar*
-                                       black=small value in regressor
-                                       white = shows when the regressor is at the its largets value
-           grey = intermediate values
-
+     Design Matrix with color bar  *describecolor bar*
+     black=small value in regressor
+     white = shows when the regressor is at the its largets value
+     grey = intermediate values
 
 Using the design matrix, we used least squares to estimate the B (beta coeff) by:
 
+     Equation for solving for Betas under matrices
 
-                                                          
-                 XTy⃗ =XTXβ⃗ ̂ +XTε⃗     
-             XTy⃗ =XTXβ⃗ ̂ 
-             β⃗ ̂ =(XTX)−1XTy⃗ 
-                                                       β⃗ ^=X+y       where X+ is the pseudo inverse of X     
+Thus, B hat will serve as the unique weights for each voxel. The beta 
+coefficient gives us the amplitudes of the 8.
 
-Thus, B-hat will serve as the unique weights for each voxel. The beta coefficient gives us the amplitudes of the 8
+The B hat represents the parameter weight, or how much each regression factor 
+contributes to the overall data. The B hat has the shape of (91,109, 91,8). 
+Each slice across the fourth dimension yields a unique set of beta coefficients 
+corresponding to that particular slice (i.e. stimuli). Additionally, slicing 
+through the third dimension reveals the amplitude over the voxels through a 
+transverse cut of the brain. The central slice can bee seen in Figure X for the 
+first run for subject one.
+For example, the following activation maps (Figures X,Y,Z) represent the beta 
+coefficients (i.e the amplitude of each voxel) produced by the viewing of the 
+object house, face, and scissors..
 
-The B-hat represents the parameter weight, or how much each regression factor contributes to the overall data. The B-hat has the shape of (91,109, 91,8). Each slice across the fourth dimension yields a unique set of beta coefficients corresponding to that particular slice (i.e. stimuli). Additionally, slicing through the third dimension reveals the amplitude over the voxels through a transverse cut of the brain. The central slice can bee seen in Figure X for the first run for subject one.
-For example, the following activation maps (Figures X,Y,Z) represent the beta coefficients (i.e the amplitude of each voxel) produced by the viewing of the object house, face, and scissors..
-
-        Figure X:  plt.imshow(betas_vols[:,:,45,:])
+      Figure X = plt.imshow(betas vols[:,:,45,:])
 
 
-Looking at the brain activation maps above, we can clearly see motion of the head in the scanner. 
+Looking at the brain activation maps above, we can clearly see motion of the 
+head in the scanner. 
+
+\subsection{PCA}
+Principal component analysis (PCA) is a standard tool in modern data analysis 
+because it is a simple, non-parametric method for extracting relevant 
+information about abstract and rather large data sets, such as fMRI.  Most 
+import is that PCA is a significant tool for deriving a low-dimensional set of 
+features from a large set of variables and can be used as a dimension reduction 
+technique for regression on our design matrix. The linear and quadratic drift 
+terms are able to model gradual drifts across the time-series but there are 
+other patterns of noise, like brain anatomy, in our data that are undetectable 
+by these methods. With PCA we can capture more of this noise and then remove 
+these principle components by regression. The principle components are a 
+sequence of projections, mutually uncorrelated and ordered in variance. In the 
+our case the component vectors are the time-courses which provide a sequence of 
+best linear approximations to our fMRI data.  Figure X illustrates the mutually 
+uncorrelated projections ordered by variance.
+
+	Figure X.
+
+Many of the  components appear to explain much of the variance but we decided 
+to examine the only first 10 as a rule of thumb.
+
+	Figures 1-10 of projections
+
+The first plot is the clearest and most obvious to contain brain anatomy rather 
+than activation, for you can see the surrounding skull structure and the 
+lateral ventricle. The other images were not so clear and for that we had to 
+err on the side of caution. Plot 7 and 8 were on of the few images that 
+displayed some sign of structure in the bottom right corner and top left 
+corner, respectively.
 
 \subsection{T-Map}
 After getting the betas hat for each run from subject 001, we applied t statistics to look for the regions of the brain that reacts positively to the one category and negatively to the other category. First, we get the differences between two categories for each run and then reshape it from three dimension to one dimensions and concatenate the twelve runs. Therefore, we have runs by voxel matrix, which is two dimension.  Finally, we applied t-statistics to each voxel, and reshape the output back to three dimension. This process is called T-map.  Hence, the T-map can help us to investigate the regions of the brain that reacts positively to the one category and negatively to the other category. We also write a function for T-map, so it is very fast to get t-map for  each subject.
@@ -271,29 +355,9 @@ According to the house vs. everything graph, it is harder to see the red point f
 \subsection{}
 
 
-
 \section{Results}
 
 \subsection{Discussion}
-
-Most of our analysis consisted of exploring the structure of our data, 
-comprehending the analysis of Haxby et al. and Hanson et al., and formulating 
-and setting up major groundwork for the reproducibility aspect of our code for 
-analysis. This left us with some time to preprocess the data by performing 
-simple outlier identification; we also performed some rough convolution which 
-needs some touching up. The scikit-learn package for machine leaning package we 
-wish to use on the data requires a merging of a subjects 12 runs of data.  A 
-good amount of time was spent on merging the data and in understanding the ways 
-of the package.  The Git workflow further extended this time as those 
-unfamiliar to the workflow practiced to become familiarized to it.  The 
-structure and study of the fMRI data itself is something new and unfamiliar 
-territory; therefore, we made it a priority to understand the basics of 
-previous analyses and structures of our data.  Our future work will contain 
-more analysis, for we are set to begin. In our next step we will reduce the 
-dimension of our data (i.e. perform PCA or PLR), we will then produce a sparse 
-model (i.e. perform ridge/lasso and cross validation to identify crucial voxels 
-and appropriate tuning parameters), and determine the best way to split our 
-data (i.e. perform cross validation on different statistical models). 
 
 
 \bibliography{project}
