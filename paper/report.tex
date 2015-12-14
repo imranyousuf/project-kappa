@@ -145,13 +145,13 @@ To effectively solve this problem, we used FUNCTION that provides an algorithm t
 Hemodynamic Response
 
 Our design matrix consists of 8 predictors, representing the ideal time series that represent what we think the response should look like to each of the eight stimulus.. Ideally we want to know the activation at the neuronal level but this is beyond the capability of fMRI, for we don’t know when that signal is occurring other than the time intervals in which the subject is shown the stimuli. To account for this we have to convolve with the hemodynamic response function. Hemodynamic response (HDR) allows the rapid delivery of blood to active neuronal tissues. If a subject is shown a photo of a cat the brain will presumably receive a rapid delivery of blood to activate the neuronal tissues for identifying/processing cat. The probability density function of the gamma distribution
-	
-	         Gamma(r, lambda) = (1/gamma(r)) * lambda^r * x^r-1 * e^-lambda*t
+  
+           Gamma(r, lambda) = (1/gamma(r)) * lambda^r * x^r-1 * e^-lambda*t
 
 can model this situation and provide us with a continuous function that is close to the hemodynamic response we observe for a single brief event in the brain.
 
-			  	Image of onsets blocks
-				Image of onsets blocks with HDR
+          Image of onsets blocks
+        Image of onsets blocks with HDR
 
 By using HDR to create the convolved regressors, we bridged through neural response and BOLD. These predictors will now closely simulate the onsets and allow our model to more accurately capture the changes in the BOLD activation associated with the presentation of stimulus to the subject.
 
@@ -161,27 +161,112 @@ By using HDR to create the convolved regressors, we bridged through neural respo
                                        Design Matrix with color bar  *describe color bar*
                                        black=small value in regressor
                                        white = shows when the regressor is at the its largets value
-			     grey = intermediate values
+           grey = intermediate values
 
 
 Using the design matrix, we used least squares to estimate the B (beta coeff) by:
+
+
                                                           
                  XTy⃗ =XTXβ⃗ ̂ +XTε⃗     
-				     XTy⃗ =XTXβ⃗ ̂ 
-				     β⃗ ̂ =(XTX)−1XTy⃗ 
-                                                       β⃗ ^=X+y     	where X+ is the pseudo inverse of X			
+             XTy⃗ =XTXβ⃗ ̂ 
+             β⃗ ̂ =(XTX)−1XTy⃗ 
+                                                       β⃗ ^=X+y       where X+ is the pseudo inverse of X     
 
-Thus, B_hat will serve as the unique weights for each voxel. The beta coefficient gives us the amplitudes of the 8
+Thus, B-hat will serve as the unique weights for each voxel. The beta coefficient gives us the amplitudes of the 8
 
-The B_hat represents the parameter weight, or how much each regression factor contributes to the overall data. The B_hat has the shape of (91,109, 91,8). Each slice across the fourth dimension yields a unique set of beta coefficients corresponding to that particular slice (i.e. stimuli). Additionally, slicing through the third dimension reveals the amplitude over the voxels through a transverse cut of the brain. The central slice can bee seen in Figure X for the first run for subject one.
+The B-hat represents the parameter weight, or how much each regression factor contributes to the overall data. The B-hat has the shape of (91,109, 91,8). Each slice across the fourth dimension yields a unique set of beta coefficients corresponding to that particular slice (i.e. stimuli). Additionally, slicing through the third dimension reveals the amplitude over the voxels through a transverse cut of the brain. The central slice can bee seen in Figure X for the first run for subject one.
 For example, the following activation maps (Figures X,Y,Z) represent the beta coefficients (i.e the amplitude of each voxel) produced by the viewing of the object house, face, and scissors..
 
-				Figure X:  plt.imshow(betas_vols[:,:,45,:])
+        Figure X:  plt.imshow(betas_vols[:,:,45,:])
 
 
 Looking at the brain activation maps above, we can clearly see motion of the head in the scanner. 
 
+\subsection{T-Map}
+After getting the betas hat for each run from subject 001, we applied t statistics to look for the regions of the brain that reacts positively to the one category and negatively to the other category. First, we get the differences between two categories for each run and then reshape it from three dimension to one dimensions and concatenate the twelve runs. Therefore, we have runs by voxel matrix, which is two dimension.  Finally, we applied t-statistics to each voxel, and reshape the output back to three dimension. This process is called T-map.  Hence, the T-map can help us to investigate the regions of the brain that reacts positively to the one category and negatively to the other category. We also write a function for T-map, so it is very fast to get t-map for  each subject.
 
+
+\subsection{House vs Face}
+
+\begin{housevsface}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=0.9\textwidth]{2_PPA}}
+    \caption{..................... Figure1: House vs Face}
+           
+           
+First, I investigate the house and face.
+According to the Figure, it is not hard to see that there are two red dots in the image. The two region  seem to react strongly to structure but not facial recognition. On the other hand, the  Therefore, I make a hypothesis: the two regions react strongly to structure. In order to test the hypothesis, we have to compare the house regressor and every other category regressor at the same scale. 
+\end{housevsface}
+
+
+\subsection{House vs Everything}
+
+\begin{housevsface}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=1\textwidth]{house_everything}}
+    \caption{Figure2: House vs Everything}
+           
+           
+According to the graph, the hypothesis should be accepted because all of images have two red dot at the same spot. Therefore, the all graph has same type of structure. This shows that the two regions respond to much more house than other visual stimuli. According to the article “The Parahippocampal Place Area: Recognition, Navigation, or Encoding?”, it states that “The parahippocampal place area (PPA) has been demonstrated to respond more strongly in fMRI to scenes depicting places than to other kinds of visual stimuli.’ Based on this sentence, this is what we exactly found, and apparently the two regions are called parahippocampal place area (PPA). In conclusion, the PPA highly correlates to the structure such as house.
+\end{housevsface}
+
+
+\subsection{CAT1 and CAT2}
+
+\begin{housevsface}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=0.7\textwidth]{2_CAT}}
+    \caption{Figure3: CAT 1}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=0.7\textwidth]{4_CAT}}
+    \caption{Figure4: CAT 4}
+           
+Next, we want to investigate the cat and every other regressor. 
+According to the two graphs, we saw the lower region of the brain seems correspond very well to cat. Therefore, we make a new hypothesis again:  viewing a picture of an animal certain part of brain responds to animal. Since the two graphs have different scale, we have to compare the cat regressor and every other category regressor at the same scale.
+
+
+
+\subsection{Cat vs Everything}
+
+\begin{housevsface}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=1.2\textwidth]{cat_everything}}
+    \caption{Figure5: Cat vs Everything}
+           
+           
+According to the graph, it is clear to see that each graph has a red dot at lower region of the brain. Hence, we should accept our hypothesis, and we can make a conclusion that the regions strongly responds the animal picture.
+
+\end{housevsface}
+
+
+\subsection{Correlation}
+
+\begin{housevsface}
+After getting beat from run1, we want see the correlation between  region of the brain that react strongly to one category and not to other category. Here we want to show that the correlation is exactly same interpretation  of t_map. 
+  \centering
+    \reflectbox{%
+      \includegraphics[width=1\textwidth]{1_correlation}}
+        \caption{Figure7: Correlation 1}
+\end{housevsface}
+
+
+
+\subsection{More Corelation}
+
+\begin{housevsface}
+  \centering
+    \reflectbox{%
+      \includegraphics[width=1.2\textwidth]{house_everything}}
+    \caption{Figure8: House vs Everything}
+           
+According to the house vs. everything graph, it is harder to see the red point from t-map between house and chair than other categories. Also, Beta chair minus Beta house has lower correlation than other two categories according to the number 1 correlation on figure 7. Therefore,  the correlation is exactly same interpretation  of t-map
+\end{housevsface}
 
 \subsection{}
 

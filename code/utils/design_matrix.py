@@ -5,7 +5,7 @@ import nibabel as nib
 from dipy.segment.mask import median_otsu
 from scipy.ndimage import gaussian_filter
 from matplotlib import colors
-from scipy.misc import imread
+from scipy.misc import *
 from loading_data import *
 from harmonic import *
 from pre_process import *
