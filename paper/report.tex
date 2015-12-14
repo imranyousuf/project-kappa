@@ -4,7 +4,7 @@
 
 \graphicspath{ {image/} }
 
-\title{Classification of fMRI Data}
+\title{Report}
 \author{
   Chang, Zheng\\
   \texttt{changzheng1993}
@@ -16,7 +16,7 @@
   \texttt{noelpimentel}
   \and
   Yousuf, Imran\\
-  \texttt{imranyousu}
+  \texttt{imranyousuf}
 }
 
 \bibliographystyle{siam}
@@ -115,38 +115,76 @@ different angles; stimuli for each meaningful category were four images each of
 121) that can be read as 64 slices 64 X 40 BOLD for 121 contiguous slices in 
 time (i.e. 121 volumes of time).
 
+\section[Preprocessing]
+
+\subsection[Masking]
+
+Since our fMRI data is represented as a 4D block of data, we are interested in working on the voxel time-series in the brain. It is then necessary to apply a mask on the 4D brain images to subset the voxels in the brain that we will be analyzing.
+
+\subsection{Smoothing}
+
+fMRI data has a low signal-to-noise ratio. Any reduction of random noise in the image will imporve the ability to detect true activation.  For this reason, smooth has become a commonly used pre-processing step in the analysis of fMRI data. Smoothing the data will improve our signal to noise ratio by applying a small blurring kernel across the image.
 
 \section{Methods}
 
-\subsection{Preprocessing/ EDA}
+\subsection{Linear Model}
+Ideally we want to detect any signal in relation to a task i.e. we want to determine which voxels contain high activation based on BOLD response to stimulus, (e.g. house, face, cat, shoe, house, scrambled, chair, bottle). We may detect signal by subtracting task from rest or by calculating a correlation between the task-on / task-off vector and the voxel time course. However, by using a Generalized Linear Model to fit our fMRI time series data, we will able to calculate a unique weight for each voxel that represents the different level of activation across all the voxels that we can use to distinguish BOLD response per stimulus.  We will regress the BOLD time series across all voxels against the timing and duration of each stimuli (8 predictors) The GLM for our fMRI data is:
 
-The Haxby data consists of six folders for each individual subject. Each of 
-these folders contains the fMRI data along within 12 folders, one for each run. 
- The structure of the data is cumbersome and for reasons of reproducibility, 
-and for our own sake, we implemented code to merge these 12 runs by calling on 
-a function and passing through the argument of subject name (i.e. 'sub001', 
-'sub002',..., 'sub012').  This code conveniently merges the 12 runs for any 
-specified subject. fMRI can have a considerable degree of noise. There are 
-often volumes with an unusual degree of noise and for that reason these volumes 
-can produce outliers in voxel time-courses. Another sign of an artifact in a 
-volume is that a given volume is very different from the preceding volume. This 
-would imply a sudden wide-spread shift in signal. 
+y? =X?? +??
 
-We calculated the standard deviation of every volume, 121x12 = 1452 volumes, 
-for each subject and identified outliers with two methods. The first method was 
-the interquartile range which is the value of the 75th percentile minus the 
-25th percentile. We might decide to declare a value as an outlier, if the value 
-(i.e. voxel standard deviation) is greater than 1.5 * IQR added to the 75th 
-percentile, or lower than 1.5 * IQR subtracted from the 25th percentile. The 
-second method assesses outliers by taking the square root of the mean of the 
-squared voxel values where these voxel values correspond to the difference of a 
-subject's 3D volume from the subsequent volume. The interquartile range method 
-is applied to these values to obtain outliers.
+Y is our BOLD signal, X the design matrix with our predictors, B the that describe the relationship between the predictors and response, and E the unexplained noise in the BOLD data.
 
-\includegraphics[scale=0.75]{vol_rms_outliers.png}
+\subsection{Design}
+Before we performed a regression analysis, we masked the data in order to distinguish the voxels that are in the brains versus the voxels that are outside the brain. Before applying a mask on subject001 run001 (fig X), we took the mean volume (over time) (3D brain image) and plotted a histogram of the mean volume values. (Fig x). By selecting the correct threshold, we will be able identify the voxels inside the brain, a 3D brain mask. We first selected a threshold of 1100. We then carelessly looped through each subject and run and applied the same threshold of 1100 only to conclude that threshold will differ between subjects and their runs (Figs X-Z: histogram showing different thresholds are needed). 
 
-If we have done a good job of identifying and removing outliers, we would 
-expect a drop in the residuals from a statistical model (e.g. linear model).
+                                                  Figs X-Z (hist)
+                                                   and brain images using the same threshold
+
+To effectively solve this problem, we used FUNCTION that provides an algorithm that computes a unique threshold, therefore a unique mask, for each subject and run. This method was more efficient and accurate as we showed that the voxels within the brain slightly vary  across subjects and their runs. Here are the resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for each run. We can clearly see the algorithm has  more accurately selected the voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, we can now perfomm a regression analysis on the subset of voxels that are in the brain.              
+\subsection{Hemodynamic Response}
+Hemodynamic Response
+
+Our design matrix consists of 8 predictors, representing the ideal time series that represent what we think the response should look like to each of the eight stimulus.. Ideally we want to know the activation at the neuronal level but this is beyond the capability of fMRI, for we don’t know when that signal is occurring other than the time intervals in which the subject is shown the stimuli. To account for this we have to convolve with the hemodynamic response function. Hemodynamic response (HDR) allows the rapid delivery of blood to active neuronal tissues. If a subject is shown a photo of a cat the brain will presumably receive a rapid delivery of blood to activate the neuronal tissues for identifying/processing cat. The probability density function of the gamma distribution
+	
+	         Gamma(r, lambda) = (1/gamma(r)) * lambda^r * x^r-1 * e^-lambda*t
+
+can model this situation and provide us with a continuous function that is close to the hemodynamic response we observe for a single brief event in the brain.
+
+			  	Image of onsets blocks
+				Image of onsets blocks with HDR
+
+By using HDR to create the convolved regressors, we bridged through neural response and BOLD. These predictors will now closely simulate the onsets and allow our model to more accurately capture the changes in the BOLD activation associated with the presentation of stimulus to the subject.
+
+
+  This results to the following design matrix (X):
+
+                                       Design Matrix with color bar  *describe color bar*
+                                       black=small value in regressor
+                                       white = shows when the regressor is at the its largets value
+			     grey = intermediate values
+
+
+Using the design matrix, we used least squares to estimate the B (beta coeff) by:
+                                                          
+                 XTy⃗ =XTXβ⃗ ̂ +XTε⃗     
+				     XTy⃗ =XTXβ⃗ ̂ 
+				     β⃗ ̂ =(XTX)−1XTy⃗ 
+                                                       β⃗ ^=X+y     	where X+ is the pseudo inverse of X			
+
+Thus, B_hat will serve as the unique weights for each voxel. The beta coefficient gives us the amplitudes of the 8
+
+The B_hat represents the parameter weight, or how much each regression factor contributes to the overall data. The B_hat has the shape of (91,109, 91,8). Each slice across the fourth dimension yields a unique set of beta coefficients corresponding to that particular slice (i.e. stimuli). Additionally, slicing through the third dimension reveals the amplitude over the voxels through a transverse cut of the brain. The central slice can bee seen in Figure X for the first run for subject one.
+For example, the following activation maps (Figures X,Y,Z) represent the beta coefficients (i.e the amplitude of each voxel) produced by the viewing of the object house, face, and scissors..
+
+				Figure X:  plt.imshow(betas_vols[:,:,45,:])
+
+
+Looking at the brain activation maps above, we can clearly see motion of the head in the scanner. 
+
+
+
+\subsection{}
+
 
 
 \section{Results}
