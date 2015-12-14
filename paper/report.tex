@@ -275,6 +275,10 @@ err on the side of caution. Plot 7 and 8 were on of the few images that
 displayed some sign of structure in the bottom right corner and top left 
 corner, respectively.
 
+\subject{Result}
+
+Now that we've applied statistical techniques on our data to improve our signal, we compared the difference of beta cofficients between two conditions to determine if two beta coefficients are significantly different. In other words, we will be comparing the difference of level of activation for a given voxel between two conditions. Using T-maps, we can infer which voxels are significantly different.
+
 \subsection{T-Map}
 After getting the betas hat for each run from subject 001, we applied t statistics to look for the regions of the brain that reacts positively to the one category and negatively to the other category. First, we get the differences between two categories for each run and then reshape it from three dimension to one dimensions and concatenate the twelve runs. Therefore, we have runs by voxel matrix, which is two dimension.  Finally, we applied t-statistics to each voxel, and reshape the output back to three dimension. This process is called T-map.  Hence, the T-map can help us to investigate the regions of the brain that reacts positively to the one category and negatively to the other category. We also write a function for T-map, so it is very fast to get t-map for  each subject.
 
