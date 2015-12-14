@@ -132,7 +132,47 @@ Before we performed a regression analysis, we masked the data in order to distin
                                                    and brain images using the same threshold
 
 To effectively solve this problem, we used FUNCTION that provides an algorithm that computes a unique threshold, therefore a unique mask, for each subject and run. This method was more efficient and accurate as we showed that the voxels within the brain slightly vary  across subjects and their runs. Here are the resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for each run. We can clearly see the algorithm has  more accurately selected the voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, we can now perfomm a regression analysis on the subset of voxels that are in the brain.              
-\subsection{}
+\subsection{Hemodynamic Response}
+Hemodynamic Response
+
+Our design matrix consists of 8 predictors, representing the ideal time series that represent what we think the response should look like to each of the eight stimulus.. Ideally we want to know the activation at the neuronal level but this is beyond the capability of fMRI, for we don’t know when that signal is occurring other than the time intervals in which the subject is shown the stimuli. To account for this we have to convolve with the hemodynamic response function. Hemodynamic response (HDR) allows the rapid delivery of blood to active neuronal tissues. If a subject is shown a photo of a cat the brain will presumably receive a rapid delivery of blood to activate the neuronal tissues for identifying/processing cat. The probability density function of the gamma distribution
+	
+	         Gamma(r, lambda) = (1/gamma(r)) * lambda^r * x^r-1 * e^-lambda*t
+
+can model this situation and provide us with a continuous function that is close to the hemodynamic response we observe for a single brief event in the brain.
+
+			  	Image of onsets blocks
+				Image of onsets blocks with HDR
+
+By using HDR to create the convolved regressors, we bridged through neural response and BOLD. These predictors will now closely simulate the onsets and allow our model to more accurately capture the changes in the BOLD activation associated with the presentation of stimulus to the subject.
+
+
+  This results to the following design matrix (X):
+
+                                       Design Matrix with color bar  *describe color bar*
+                                       black=small value in regressor
+                                       white = shows when the regressor is at the its largets value
+			     grey = intermediate values
+
+
+Using the design matrix, we used least squares to estimate the B (beta coeff) by:
+                                                          
+                 XTy⃗ =XTXβ⃗ ̂ +XTε⃗     
+				     XTy⃗ =XTXβ⃗ ̂ 
+				     β⃗ ̂ =(XTX)−1XTy⃗ 
+                                                       β⃗ ^=X+y     	where X+ is the pseudo inverse of X			
+
+Thus, B_hat will serve as the unique weights for each voxel. The beta coefficient gives us the amplitudes of the 8
+
+The B_hat represents the parameter weight, or how much each regression factor contributes to the overall data. The B_hat has the shape of (91,109, 91,8). Each slice across the fourth dimension yields a unique set of beta coefficients corresponding to that particular slice (i.e. stimuli). Additionally, slicing through the third dimension reveals the amplitude over the voxels through a transverse cut of the brain. The central slice can bee seen in Figure X for the first run for subject one.
+For example, the following activation maps (Figures X,Y,Z) represent the beta coefficients (i.e the amplitude of each voxel) produced by the viewing of the object house, face, and scissors..
+
+				Figure X:  plt.imshow(betas_vols[:,:,45,:])
+
+
+Looking at the brain activation maps above, we can clearly see motion of the head in the scanner. 
+
+
 
 \subsection{}
 
