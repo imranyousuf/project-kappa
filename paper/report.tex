@@ -115,6 +115,15 @@ different angles; stimuli for each meaningful category were four images each of
 121) that can be read as 64 slices 64 X 40 BOLD for 121 contiguous slices in 
 time (i.e. 121 volumes of time).
 
+\section[Preprocessing]
+
+\subsection[Masking]
+
+Since our fMRI data is represented as a 4D block of data, we are interested in working on the voxel time-series in the brain. It is then necessary to apply a mask on the 4D brain images to subset the voxels in the brain that we will be analyzing.
+
+\subsection{Smoothing}
+
+fMRI data has a low signal-to-noise ratio. Any reduction of random noise in the image will imporve the ability to detect true activation.  For this reason, smooth has become a commonly used pre-processing step in the analysis of fMRI data. Smoothing the data will improve our signal to noise ratio by applying a small blurring kernel across the image.
 
 \section{Methods}
 
