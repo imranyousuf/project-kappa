@@ -116,6 +116,8 @@ different angles; stimuli for each meaningful category were four images each of
 121) that can be read as 64 slices 64 X 40 BOLD for 121 contiguous slices in 
 time (i.e. 121 volumes of time).
 
+Due to possible subject movement and unavoidable low frequency drifts/noise we used provided preprocessed data for our analysis. Stanford’s Russ Poldrack and the folks at the OpenFMRI project provided the preprocessed data. The processing applied to the scans is motion correction to partially correct for movement during the runs and between runs, high-pass filtering in time to remove low frequency drifts/noise and registration to a standard anatomical template.  The old data has shape (40, 64, 64, 121) and the new preprocessed data (91, 109, 91, 121).
+
 \section{Preprocessing}
 
 \subsection{Masking}
@@ -128,8 +130,8 @@ analyzing.
 \subsection{Smoothing}
 
 fMRI data has a low signal-to-noise ratio. Any reduction of random noise in the 
-image will imporve the ability to detect true activation.  For this reason, 
-smooth has become a commonly used pre-processing step in the analysis of fMRI 
+image will improve the ability to detect true activation.  For this reason, 
+smoothing has become a commonly used pre-processing step in the analysis of fMRI 
 data. Smoothing the data will improve our signal to noise ratio by applying a 
 small blurring kernel across the image.
 
@@ -154,7 +156,7 @@ Y is our BOLD signal, X the design matrix with our predictors, B the that
 describe the relationship between the predictors and response, and E the 
 unexplained noise in the BOLD data.
 
-\subsection{Design}
+\subsubsection{Design Matrix}
 Before we performed a regression analysis, we masked the data in order to 
 distinguish the voxels that are in the brains versus the voxels that are 
 outside the brain. Before applying a mask on subject001 run001 (fig X), we took 
@@ -174,15 +176,15 @@ run. This method was more efficient and accurate as we showed that the voxels
 within the brain slightly vary  across subjects and their runs. Here are the 
 resulting brain images (fig a-c), same as (fig x-z), but with a unique mask for 
 each run. We can clearly see the algorithm has  more accurately selected the 
-voxels in the brain. Now that we?ve removed on average 700,000 voxels per run, 
+voxels in the brain. Now that we've removed on average 700,000 voxels per run, 
 we can now perfomm a regression analysis on the subset of voxels that are in 
 the brain.    
           
-\subsection{Hemodynamic Response}
+\subsubsection{Hemodynamic Response}
 
-Our design matrix consists of 8 predictors, representing the ideal time series 
+Our design matrix will consist of 8 predictors, representing the ideal time series 
 that represent what we think the response should look like to each of the eight 
-stimulus.. Ideally we want to know the activation at the neuronal level but 
+stimulu.. Ideally we want to know the activation at the neuronal level but 
 this is beyond the capability of fMRI, for we don’t know when that signal 
 is occurring other than the time intervals in which the subject is shown the 
 stimuli. To account for this we have to convolve with the hemodynamic response 
@@ -213,12 +215,15 @@ This results to the following design matrix (X):
      white = shows when the regressor is at the its largets value
      grey = intermediate values
 
+\subsubsection{Estimating Beta Values: Activation Maps}
 Using the design matrix, we used least squares to estimate the B (beta coeff) by:
 
      Equation for solving for Betas under matrices
 
 Thus, B hat will serve as the unique weights for each voxel. The beta 
-coefficient gives us the amplitudes of the 8.
+coefficient gives us the amplitudes of the 8 different stimulus. Small beta values, small amplitude,
+will represent a low level of activation, while voxels with large beta values will
+represent a high level of activation.
 
 The B hat represents the parameter weight, or how much each regression factor 
 contributes to the overall data. The B hat has the shape of (91,109, 91,8). 
@@ -234,8 +239,11 @@ object house, face, and scissors..
       Figure X = plt.imshow(betas vols[:,:,45,:])
 
 
-Looking at the brain activation maps above, we can clearly see motion of the 
-head in the scanner. 
+After anaylzing many brain activation maps across subjects and runs, we need a linear drift to adjust for head movement during the scanner. We also added a quatratic drift because there is quadratic behavior present. He is the new design matrix:
+
+      Fig X: Design Matrix with linear and quadratic drift terms
+      
+We decided to go even further and applied PCA to our data to increase the accuracy of our activation levels. 
 
 \subsection{PCA}
 Principal component analysis (PCA) is a standard tool in modern data analysis 
