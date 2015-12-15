@@ -9,7 +9,7 @@ coverage:
 	nosetests code/utils data --with-coverage --cover-package=data  --cover-package=utils
 
 test:
-	nosetests code/utils/tests 
+	nosetests data/tests
 
 verbose:
 	nosetests -v code/utils data
