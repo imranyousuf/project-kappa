@@ -9,3 +9,7 @@ all:
 
 clean:
 	rm -f *.{aux,log,bbl,lof,lot,blg,out}
+
+reset: 
+	make clean
+	rm -f report.pdf
