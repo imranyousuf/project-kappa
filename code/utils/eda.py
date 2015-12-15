@@ -50,12 +50,12 @@ for i in list_cond_file(subject,run):
     pred = pred + 1
 
 plt.plot(all_tr_times ,X_np[:,:8])
-plt.savefig('block.png')
+plt.savefig('../../images/block.png')
 plt.close()
 
 plt.plot(all_tr_times ,X_np[:,:8])
 plt.plot(all_tr_times, X[:,:8])
-plt.savefig('block_and_hdr.png')
+plt.savefig('../../images/block_and_hdr.png')
 plt.close()
 
 #II. Design
@@ -67,7 +67,7 @@ data = bold_data(subject, 1)
 mean_vol = np.mean(data, axis=-1)
 
 plt.hist(np.ravel(mean_vol), bins=100)
-plt.savefig('sub1_run1_mask.png')
+plt.savefig('../../images/sub1_run1_mask.png')
 plt.close()
 
 #mean_data = np.mean(data,axis=-1)
@@ -79,7 +79,7 @@ data3 = bold_data(subject, 3)
 mean_vol2 = np.mean(data3, axis=-1)
 
 plt.hist(np.ravel(mean_vol2), bins=100)
-plt.savefig('sub1_run3_mask.png')
+plt.savefig('../../images/sub1_run3_mask.png')
 plt.close()
 
 #mean_data2 = np.mean(data3,axis=-1)
@@ -91,7 +91,7 @@ data5 = bold_data(subject, 5)
 mean_vol3 = np.mean(data5, axis=-1)
 
 plt.hist(np.ravel(mean_vol3), bins=100)
-plt.savefig('sub1_run5_mask.png')
+plt.savefig('../../images/sub1_run5_mask.png')
 plt.close()
 
 #mean_data3 = np.mean(data5,axis=-1)
@@ -112,28 +112,28 @@ plt.imshow(mean_data[:,:,45],cmap='gray',alpha=0.5,interpolation='nearest')
 #Design Matrix
 plt.imshow(X[:,0:9], aspect = 0.1, interpolation = 'nearest', cmap = 'gray')
 plt.colorbar()
-plt.savefig('desing_matrix.png')
+plt.savefig('../../images/desing_matrix.png')
 plt.close()
 
 X, Y, betas_vols, mask, U, Y_demeaned, mean_data, projection_vols = design_matrix(subject, run)
 plt.imshow(X, aspect = 0.1, interpolation = 'nearest', cmap = 'gray')
 plt.colorbar()
-plt.savefig('desing_matrix_dt_pca.png')
+plt.savefig('../../images/desing_matrix_dt_pca.png')
 plt.close()
 
 #Betas Values
 betas_vols[~mask]=np.nan
 
 plt.imshow(betas_vols[:,:,45,0], interpolation ='nearest')
-plt.savefig('betas_vols_house.png')
+plt.savefig('../../images/betas_vols_house.png')
 plt.close()
 
 plt.imshow(betas_vols[:,:,45,7], interpolation ='nearest')
-plt.savefig('betas_vols_face.png')
+plt.savefig('../../images/betas_vols_face.png')
 plt.close()
 
 plt.imshow(betas_vols[:,:,45,5], interpolation ='nearest')
-plt.savefig('betas_vols_scissors.png')
+plt.savefig('../../images/betas_vols_scissors.png')
 plt.close()
 
 #PCA
@@ -145,12 +145,12 @@ u_cov = Y_demeaned_fix.dot(Y_demeaned_fix.T)
 U, S, V = npl.svd(u_cov)
 
 plt.plot(S)
-plt.savefig('components_variance.png')
+plt.savefig('../../images/components_variance.png')
 
 #PCA Projections
 for i in range(10):
     plt.imshow(projection_vols[:,:,45,i], cmap = 'gray')
-    plt.savefig('projection_' + str(i) + '.png')
+    plt.savefig('../../images/projection_' + str(i) + '.png')
 
 # Some final checks that you wrote the files with their correct names
 from os.path import exists
