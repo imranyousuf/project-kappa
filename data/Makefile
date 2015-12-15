@@ -7,7 +7,7 @@ testing_data:
 
 validate:
 	wget https://www.ocf.berkeley.edu/~imran/checksums.txt
-	python validate.py
+	python data.py
 	
 
 testing_validate: 
