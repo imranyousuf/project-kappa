@@ -595,11 +595,6 @@ def check_hashes(d):
         else:
             print("ERROR: The file {0} has the WRONG hash!".format(k))
             all_good = False
-	if all_good == True:
-		print("Success")
-	else:
-		print("Failure: Check log")
-
 
 
 
