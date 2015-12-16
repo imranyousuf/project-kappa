@@ -1,4 +1,4 @@
-.PHONY: all data validate eda analysis clean coverage test
+.PHONY: all data validate eda analysis clean report test verbose
 
 all:
 	cd data && make data
