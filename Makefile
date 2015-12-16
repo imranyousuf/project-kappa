@@ -22,9 +22,11 @@ analysis:
 
 clean:
 	find . -name "*.so" -o -name "*.pyc" -o -name "*.pyx.md5" | xargs rm -f
+	
+report:
+	cd paper && make all
 
-coverage:
-	nosetests code/utils data --with-coverage --cover-package=data  --cover-package=utils
+
 
 test:
 	nosetests data/tests
