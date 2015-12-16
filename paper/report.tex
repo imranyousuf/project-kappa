@@ -150,7 +150,10 @@ response per stimulus.  We will regress the BOLD time series across all voxels
 against the timing and duration of each stimuli (8 predictors) The GLM for our 
 fMRI data is
 
-Y = X\beta \pm \varepsilon 
+\begin{equation}
+        Y = X\beta \pm \varepsilon
+\end{equation}
+
 
 Y is our BOLD signal, X the design matrix with our predictors, B the that 
 describe the relationship between the predictors and response, and E the 
@@ -168,27 +171,23 @@ applied the same threshold of 1100 only to conclude that threshold will differ
 between subjects and their runs (Figs 1-3: histogram showing different 
 thresholds are needed). 
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=0.5\textwidth]{sub1_run1_mask}
 Figure 1: Sub 1 Run 1
 
- 
-\end{housevseverything}
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=0.5\textwidth]{sub1_run3_mask.png}
-      \caption{Figure 2: Sub 1 Run 3}
+Figure 2: Sub 1 Run 3
 
-\end{housevseverything}
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=0.5\textwidth]{sub1_run5_mask.png}
-      \caption{Figure 3: Sub 1 Run5}
+Figure 3: Sub 1 Run5
 
-\end{housevseverything}
 
 
 To effectively solve this problem, we used FUNCTION that provides an algorithm 
@@ -211,30 +210,32 @@ active neuronal tissues. If a subject is shown a photo of a cat the brain will
 presumably receive a rapid delivery of blood to activate the neuronal tissues 
 for identifying/processing cat. The probability density function of the gamma 
 distribution
-	
-
-           Gamma(\alpha ,\beta )= \frac{\beta ^{\alpha }}{\Gamma (\alpha )}.X^{\alpha -1}.e^{-\beta x}
+  
+\begin{equation}
+    Gamma(\alpha ,\beta )= \frac{\beta ^{\alpha }}{\Gamma (\alpha )}.X^{\alpha -1}.e^{-\beta x}
+\end{equation}
+           
 
 can model this situation and provide us with a continuous function that is 
 close to the hemodynamic response we observe for a single brief event in the 
 brain.
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=1\textwidth]{block}
-    \caption{Figure 4: Onsets blocks for subject 1}
-\end{housevseverything}
+Figure 4: Onsets blocks for subject 1
 
 
-\begin{housevseverything}
+
+
     \centering
       \includegraphics[width=1\textwidth]{block_and_hdr}
-    \caption{Figure 5: Onsets blocks with HDR subject 1}
-\end{housevseverything}
+Figure 5: Onsets blocks with HDR subject 1
 
 
 
-		
+
+    
 
 By using HDR to create the convolved regressors, we bridged through neural 
 response and BOLD. These predictors will now closely simulate the onsets and 
@@ -243,18 +244,21 @@ associated with the presentation of stimulus to the subject.
 
 This results to the following design matrix (X):
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=1\textwidth]{desing_matrix}
-    \caption{Figure 6: Design Matrix}
-\end{housevseverything}
+Figure 6: Design Matrix
+
 
 
 
 \subsubsection{Estimating Beta Values: Activation Maps}
 Using the design matrix, we used least squares to estimate the B (beta coeff) by:
 
-     \hat{\beta }= [X^{T}X]^{-1} X^{T}
+\begin{equation}
+    \hat{\beta }= [X^{T}X]^{-1} X^{T}
+\end{equation}
+
 
 Thus, B hat will serve as the unique weights for each voxel. The beta 
 coefficient gives us the amplitudes of the 8 different stimulus. Small beta values, small amplitude,
@@ -272,23 +276,21 @@ For example, the following activation maps represent the beta
 coefficients (i.e the amplitude of each voxel) produced by the viewing of the 
 object house, face, and scissors..
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=.5\textwidth]{betas_vols_face}
       \includegraphics[width=.5\textwidth]{betas_vols_house}
       \includegraphics[width=.5\textwidth]{betas_vols_scissors}
-    \caption{Figure 7: Beta}
-\end{housevseverything}
+Figure 7: Beta
 
 
 
 After analyzing many brain activation maps across subjects and runs, we need a linear drift to adjust for head movement during the scanner. We also added a quadratic drift because there is quadratic behavior present. He is the new design matrix:
 
-\begin{housevseverything}
     \centering
       \includegraphics[width=1\textwidth]{desing_matrix_dt_pca}
-    \caption{Figure 8: Design Matrix with linear and quadratic drift}
-\end{housevseverything}
+Figure 8: Design Matrix with linear and quadratic drift
+
 
 We decided to go even further and applied PCA to our data to increase the accuracy of our activation levels. 
 
@@ -308,17 +310,17 @@ our case the component vectors are the time-courses which provide a sequence of
 best linear approximations to our fMRI data.  Figure 9 illustrates the mutually 
 uncorrelated projections ordered by variance.
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=0.8\textwidth]{components_variance}
-\end{housevseverything}
+
 
 Fig. 9: Projections ordered by variance
 
 Many of the  components appear to explain much of the variance but we decided 
 to examine the only first 10 as a rule of thumb.
 
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=0.5\textwidth]{projection_0}
       \includegraphics[width=0.5\textwidth]{projection_1}
@@ -330,9 +332,8 @@ to examine the only first 10 as a rule of thumb.
       \includegraphics[width=0.5\textwidth]{projection_7}
       \includegraphics[width=0.5\textwidth]{projection_8}
       \includegraphics[width=0.5\textwidth]{projection_9}
-      \includegraphics[width=0.5\textwidth]{projection_10}
-    \caption{Figure 10: Projections}
-\end{housevseverything}
+Figure 10: Projections
+
 
 The first plot is the clearest and most obvious to contain brain anatomy rather 
 than activation, for you can see the surrounding skull structure and the 
@@ -352,23 +353,41 @@ After getting the betas hat for each run from subject 001, we applied t-statisti
 
 
 \subsection{House vs Face}
-\begin{housevseverything}
+
     \centering
       \includegraphics{house_vs_face}
-    \caption{Figure 11: House vs Face}
+Figure 11: House vs Face
 
-\end{housevsface}
 
 First, we investigated the house and face. 
 According to the Figure 11 house vs face, it is not hard to see that there are two red dots in the image. The two red regions  seem to react strongly to structure but not facial recognition. On the other hand, the blue region seems to react strongly to the face.  Therefore, we make a conclude: the two regions react strongly to structure. In order to test the hypothesis, we have to compare the house regressor and every other category regressor at the same scale.
 
-\begin{housevseverything}
+
     \centering
         \includegraphics[width=1\textwidth]{house_everything}
-    \caption{Figure 12: House vs Everything}
+Figure 12: House vs Everything
+\newline
 
 
-\end{housevseverything}
+Sub Figure Description:
+\newline
+{\hfil Figure 12.2 is beta-house vs beta-scrambledpix.\hfil}
+\newline
+{\hfil Figure 12.3 is beta-house vs beta-cat. \hfil}
+\newline
+{\hfil Figure 12.4 is beta-house vs beta-shoe.\hfil}
+\newline
+{\hfil Figure 12.5 is beta-house vs beta-bottle. \hfil}
+\newline
+{\hfil Figure 12.6 is beta-house vs beta-scissors.\hfil}
+\newline
+{\hfil Figure 12.7 is beta-house vs beta-chair. \hfil}
+\newline
+{\hfil Figure 12.8 is beta-house vs beta-face.\hfil}
+\newline
+
+
+
 
 According to the graph, the hypothesis should be accepted because all of images have two red dots at the same spot. Therefore, the all graph has same type of structure. This shows that the two red regions respond to much more house than other visual stimuli. According to the article “The Parahippocampal Place Area: Recognition, Navigation, or Encoding?” \cite{epstein1999ppa} it states that “The parahippocampal place area (PPA) has been demonstrated to respond more strongly in fMRI to scenes depicting places than to other kinds of visual stimuli.” Therefore, these regions are called parahippocampal place area (PPA). In conclusion, the house regressor region of activation makes it easier to visualize if the amplitude of activation in the house condition differ from that of the other 7 conditions. 
 
@@ -376,19 +395,19 @@ Next, we want to investigate the cat and every other regressor.
 
 \subsection{Cat vs Shoe,Scram}
 
-\begin{housevseverything}
+
     \centering
       \includegraphics{cat_vs_shoe}
-    \caption{Figure 13: Cat vs Shoe}
+Figure 13: Cat vs Shoe
     
 
-\begin{housevseverything}
+
     \centering
       \includegraphics{cat_vs_scram}
-    \caption{Figure 14: Cat vs Scram}
+Figure 14: Cat vs Scram
 
 
-\end{housevseverything}
+
 
 
 
@@ -396,12 +415,30 @@ Next, we want to investigate the cat and every other regressor.
 
 According to the two graphs, we saw the lower region of the brain seems correspond very well to cat. Therefore, we make a new hypothesis again:  viewing a picture of an animal certain part of brain responds to animal. Since the two graphs have different scale, we have to compare the cat regressor and every other category regressor at the same scale.
 
-\begin{housevseverything}
     \centering
       \includegraphics[width=.8\textwidth]{cat_everything}
-\end{housevseverything}
+
        
-        Fig 15: Cat vs Everything
+        Figure 15: Cat vs Everything
+        
+
+Sub Figure Description:
+\newline
+Figure 15.1 is beta-cat vs beta-house.
+\newline
+    Figure 15.2 is beta-cat vs beta-scrambledpix.
+\newline
+Figure 15.4 is beta-cat vs beta-shoe. 
+\newline
+Figure 15.5 is beta-cat vs beta-bottle. 
+\newline
+Figure 15.6 is beta-cat vs beta-scissors. 
+\newline
+Figure 15.7 is beta-cat vs beta-chair. 
+\newline
+Figure 15.8 is beta-cat vs beta-face. 
+\newline
+
 
 According to the graph, it is clear to see that each graph has a red dot at lower region of the brain. Hence, we can make a conclusion that the regions strongly responds the animal picture.
 
@@ -411,25 +448,22 @@ After getting beat from run1, we want to see the correlations between  region of
 
 
 \subsection{Correlation between House vs Everything}
-\begin{housevseverything}
+
     \centering
       \includegraphics{corr_House_vs_everything}
-    \caption{Figure 16: Correlation between House vs Everything}
-\end{housevseverything}
+Figure 16: Correlation between House vs Everything
+
 
 According to the house vs everything graph, it is harder to see the red point from t-map between house and chair than other categories. Also, Beta-chair  minus Beta-house has lower correlation than other two categories according to the 1-correlation. Therefore,  this shows that the correlation is exactly same interpretation  of t-map. 
 
 \subsection{Correlation Difference}
-\begin{housevseverything}
+
     \centering
       \includegraphics[width=.8\textwidth]{correlation_difference}
-      
-      
-    \caption{Figure 17: Correlation Difference}
+.                Figure 17: Correlation Difference
 
 
 
-\end{housevseverything}
 \subsection{Discussion}
 
 We were able to identify which voxels were significantly different by comparing the difference of beta coefficients between a set of two conditions. Before reaching that point we had to prepare our data by implementing a variety of techniques and tools.  Our basis tool was that of the powerful linear model which paved our work way for our analysis. We were able to provide some insight into the work of Haxby but were unable to fully delve into classification methods due to the complexity of the raw fMRI data and direction of the possibilities thereof. However, we have built a nice foundation that can and will surely guide us into the future analysis that we originally planned to execute. 
