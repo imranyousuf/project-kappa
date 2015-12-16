@@ -1,14 +1,14 @@
 .PHONY: analysis eda all clean coverage test depends
 
 analysis:
-	python Analysis.py
+	cd utils && python Analysis.py
 
 eda:
-	python eda.py
+	cd utils && python eda.py
 
 all:
-	python Analysis.py
-	python eda.py
+	cd utils && python eda.py
+	cd utils && python Analysis.py
 
 depends:
 	sudo pip install dipy
